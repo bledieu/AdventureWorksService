@@ -1,0 +1,5 @@
+C:\Temp\AdventureWorksService\AdventureWorks.Model\bin\Release\AdventureWorks.Model.dll
+C:\Temp\AdventureWorksService\AdventureWorks.Model\bin\Release\AdventureWorks.Model.pdb
+C:\Temp\AdventureWorksService\AdventureWorks.Model\obj\Release\AdventureWorks.Model.csprojResolveAssemblyReference.cache
+C:\Temp\AdventureWorksService\AdventureWorks.Model\obj\Release\AdventureWorks.Model.dll
+C:\Temp\AdventureWorksService\AdventureWorks.Model\obj\Release\AdventureWorks.Model.pdb

@@ -1,0 +1,13 @@
+C:\Temp\AdventureWorksService\UnitTests\AdventureWorks.DAL.Tests\obj\Debug\AdventureWorks.DAL.Tests.csprojResolveAssemblyReference.cache
+C:\Temp\AdventureWorksService\UnitTests\AdventureWorks.DAL.Tests\bin\Debug\AdventureWorks.DAL.Tests.dll
+C:\Temp\AdventureWorksService\UnitTests\AdventureWorks.DAL.Tests\bin\Debug\AdventureWorks.DAL.Tests.pdb
+C:\Temp\AdventureWorksService\UnitTests\AdventureWorks.DAL.Tests\bin\Debug\AdventureWorks.Dal.dll
+C:\Temp\AdventureWorksService\UnitTests\AdventureWorks.DAL.Tests\bin\Debug\AdventureWorks.Model.dll
+C:\Temp\AdventureWorksService\UnitTests\AdventureWorks.DAL.Tests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Temp\AdventureWorksService\UnitTests\AdventureWorks.DAL.Tests\bin\Debug\AdventureWorks.Dal.pdb
+C:\Temp\AdventureWorksService\UnitTests\AdventureWorks.DAL.Tests\bin\Debug\AdventureWorks.Model.pdb
+C:\Temp\AdventureWorksService\UnitTests\AdventureWorks.DAL.Tests\bin\Debug\fr\Microsoft.VisualStudio.QualityTools.UnitTestFramework.resources.dll
+C:\Temp\AdventureWorksService\UnitTests\AdventureWorks.DAL.Tests\obj\Debug\AdventureWorks.DAL.Tests.dll
+C:\Temp\AdventureWorksService\UnitTests\AdventureWorks.DAL.Tests\obj\Debug\AdventureWorks.DAL.Tests.pdb
+C:\Temp\AdventureWorksService\UnitTests\AdventureWorks.DAL.Tests\bin\Debug\Moq.dll
+C:\Temp\AdventureWorksService\UnitTests\AdventureWorks.DAL.Tests\bin\Debug\Moq.xml

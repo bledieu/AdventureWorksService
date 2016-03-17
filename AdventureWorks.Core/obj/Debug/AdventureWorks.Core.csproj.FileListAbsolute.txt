@@ -1,0 +1,10 @@
+C:\Temp\AdventureWorksService\AdventureWorks.Core\bin\AventureWorks.Core.dll.config
+C:\Temp\AdventureWorksService\AdventureWorks.Core\bin\AventureWorks.Core.dll
+C:\Temp\AdventureWorksService\AdventureWorks.Core\bin\AventureWorks.Core.pdb
+C:\Temp\AdventureWorksService\AdventureWorks.Core\obj\Debug\AdventureWorks.Core.csprojResolveAssemblyReference.cache
+C:\Temp\AdventureWorksService\AdventureWorks.Core\obj\Debug\AventureWorks.Core.dll
+C:\Temp\AdventureWorksService\AdventureWorks.Core\obj\Debug\AventureWorks.Core.pdb
+C:\Temp\AdventureWorksService\AdventureWorks.Core\bin\AdventureWorks.Model.dll
+C:\Temp\AdventureWorksService\AdventureWorks.Core\bin\AdventureWorks.Model.pdb
+C:\Temp\AdventureWorksService\AdventureWorks.Core\bin\AdventureWorks.Dal.dll
+C:\Temp\AdventureWorksService\AdventureWorks.Core\bin\AdventureWorks.Dal.pdb
