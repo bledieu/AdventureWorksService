@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Les informations générales relatives à un assembly dépendent de 
 // l'ensemble d'attributs suivant. Pour modifier les informations
 // associées à un assembly, changez les valeurs de ces attributs.
-[assembly: AssemblyTitle("AventureWorks.Core")]
+[assembly: AssemblyTitle("AdventureWorks.Core")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("AventureWorks.Core")]
+[assembly: AssemblyProduct("AdventureWorks.Core")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
