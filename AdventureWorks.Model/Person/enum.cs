@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AdventureWorks.Model.Person
+namespace AdventureWorks.Model
 {
     public enum PersonType
     {

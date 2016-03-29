@@ -1,6 +1,7 @@
 ﻿using System;
-using AdventureWorks.Model.Person;
+using AdventureWorks.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Linq;
 
 namespace AdventureWorks.Model.Tests.Person
 {
@@ -130,5 +131,7 @@ namespace AdventureWorks.Model.Tests.Person
         {
             PersonModel person = new PersonModel { ModifiedDateString = null };
         }
+
+       
     }
 }

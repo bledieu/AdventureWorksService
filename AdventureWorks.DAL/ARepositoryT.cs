@@ -22,10 +22,10 @@ namespace AdventureWorks.Dal
             get { return _connectionString; }
         }
 
-        public abstract bool Delete(int id);
-        public abstract T GetOneById(int id);
-        public abstract bool Insert(T item);
-        public abstract IList<T> SelectAll();
-        public abstract bool Update(T item);
+        public virtual bool Delete(int id) { throw new NotImplementedException(); }
+        public virtual T GetOneById(int id) { throw new NotImplementedException(); }
+        public virtual bool Insert(T item) { throw new NotImplementedException(); }
+        public virtual IList<T> SelectAll() { throw new NotImplementedException(); }
+        public virtual bool Update(T item) { throw new NotImplementedException(); }
     }
 }

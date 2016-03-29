@@ -1,4 +1,4 @@
-﻿using AdventureWorks.Model.Person;
+﻿using AdventureWorks.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;

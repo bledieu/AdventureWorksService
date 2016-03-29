@@ -1,5 +1,5 @@
 ﻿using AdventureWorks.Dal;
-using AdventureWorks.Model.Person;
+using AdventureWorks.Model;
 using AdventureWorks.Core.Security;
 using System;
 using System.Collections.Generic;
@@ -23,8 +23,6 @@ namespace AdventureWorks.Core.Person
 
         public PersonModel GetOne(string id)
         {
-            //this.CheckIfUserIsAuthenticated();
-
             var person = _repository.GetOneById(Convert.ToInt32(id, CultureInfo.InvariantCulture));
             return person;
         }

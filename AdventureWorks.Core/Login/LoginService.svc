@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="AdventureWorks.Core.Login.LoginService" CodeBehind="LoginService.svc.cs" Factory="AdventureWorks.Core.Security.CredentialHostFactory" %>

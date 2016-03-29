@@ -10,25 +10,34 @@ en modifiant ce fichier MSBuild. Pour en savoir plus à ce sujet, consultez la p
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/AdventureWorks.Core.dll">
-      <publishTime>03/23/2016 09:25:34</publishTime>
+      <publishTime>03/25/2016 11:55:56</publishTime>
     </File>
     <File Include="bin/AdventureWorks.Dal.dll">
-      <publishTime>03/17/2016 12:24:16</publishTime>
+      <publishTime>03/25/2016 11:55:56</publishTime>
     </File>
     <File Include="bin/AdventureWorks.Model.dll">
-      <publishTime>03/17/2016 12:24:16</publishTime>
+      <publishTime>03/24/2016 16:48:32</publishTime>
     </File>
     <File Include="bin/AventureWorks.Core.dll">
       <publishTime>03/20/2016 18:37:54</publishTime>
     </File>
+    <File Include="bin/BasicAuthenticationUsingWCF.dll">
+      <publishTime>03/23/2016 11:33:02</publishTime>
+    </File>
+    <File Include="bin/Microsoft.ServiceModel.Web.dll">
+      <publishTime>01/11/2011 16:30:02</publishTime>
+    </File>
     <File Include="bin/WCFMock.dll">
       <publishTime>03/18/2016 12:30:12</publishTime>
     </File>
+    <File Include="Login/LoginService.svc">
+      <publishTime>03/24/2016 23:08:24</publishTime>
+    </File>
     <File Include="Person/ServicePerson.svc">
-      <publishTime>03/22/2016 16:44:06</publishTime>
+      <publishTime>03/23/2016 21:31:40</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>03/23/2016 09:25:34</publishTime>
+      <publishTime>03/25/2016 11:55:56</publishTime>
     </File>
   </ItemGroup>
 </Project>

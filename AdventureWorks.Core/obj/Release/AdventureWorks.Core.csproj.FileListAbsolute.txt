@@ -9,3 +9,5 @@ C:\Temp\AdventureWorksService\AdventureWorks.Core\bin\AdventureWorks.Core.dll
 C:\Temp\AdventureWorksService\AdventureWorks.Core\bin\AdventureWorks.Core.pdb
 C:\Temp\AdventureWorksService\AdventureWorks.Core\obj\Release\AdventureWorks.Core.dll
 C:\Temp\AdventureWorksService\AdventureWorks.Core\obj\Release\AdventureWorks.Core.pdb
+C:\Temp\AdventureWorksService\AdventureWorks.Core\bin\BasicAuthenticationUsingWCF.dll
+C:\Temp\AdventureWorksService\AdventureWorks.Core\bin\Microsoft.ServiceModel.Web.dll

@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using AdventureWorks.Core.Person;
-using AdventureWorks.Model.Person;
+using AdventureWorks.Model;
 using System.Collections.Generic;
 using AdventureWorks.Dal;
 using AdventureWorks.Dal.Tests;
@@ -16,8 +16,8 @@ namespace AdventureWorks.UnitTests.Person
     [TestClass]
     public class ServicePersonTest
     {
-        private readonly Mock<IRepositoryT<PersonModel>> _mockedRepository;
-        private readonly IRepositoryT<PersonModel> _repository;
+        private readonly Mock<IPersonDal> _mockedRepository;
+        private readonly IPersonDal _repository;
 
         public ServicePersonTest()
         {
@@ -52,57 +52,6 @@ namespace AdventureWorks.UnitTests.Person
 
             //act
             PersonModel result = controller.GetOne("10");
-
-            //assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(expectedPerson, result);
-            _mockedRepository.Verify(x => x.GetOneById(It.IsAny<int>()), Times.Once);
-        }
-
-        [TestMethod]
-        [TestCategory("ServicePersonTest")]
-        [ExpectedException(typeof(UnauthorizedAccessException))]
-        public void RequestFromAnUnauthenticatedUserShouldThrowError()
-        {
-            Mock<IOperationContext> mockContext = new Mock<IOperationContext> { DefaultValue = DefaultValue.Mock };
-
-            //arrange
-            ServicePerson controller = new ServicePerson(_repository);
-            PersonModel expectedPerson = _repository.SelectAll().Where(x => x.Id == 10).SingleOrDefault();
-            Assert.IsNotNull(expectedPerson);
-            PersonModel result;
-
-            using (new MockedOperationContext(mockContext.Object))
-            {
-                //act
-                result = controller.GetOne("10");
-            }
-
-            //assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(expectedPerson, result);
-            _mockedRepository.Verify(x => x.GetOneById(It.IsAny<int>()), Times.Once);
-        }
-
-        [TestMethod]
-        [TestCategory("ServicePersonTest")]
-        [ExpectedException(typeof(UnauthorizedAccessException))]
-        public void RequestFromABadAuthenticatedUserShouldThrowError()
-        {
-            Mock<IOperationContext> mockContext = new Mock<IOperationContext> { DefaultValue = DefaultValue.Mock };
-
-            //arrange
-            ServicePerson controller = new ServicePerson(_repository);
-            PersonModel expectedPerson = _repository.SelectAll().Where(x => x.Id == 10).SingleOrDefault();
-            Assert.IsNotNull(expectedPerson);
-            PersonModel result;
-
-            
-            using (new MockedOperationContext(mockContext.Object))
-            {
-                //act
-                result = controller.GetOne("10");
-            }
 
             //assert
             Assert.IsNotNull(result);

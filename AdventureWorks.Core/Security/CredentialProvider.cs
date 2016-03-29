@@ -1,13 +1,22 @@
-﻿using System;
+﻿using AdventureWorks.Dal;
+using AdventureWorks.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Security;
 
-namespace AdventureWorks.Core.Person
+namespace AdventureWorks.Core.Security
 {
-    public class PersonProvider : MembershipProvider
+    public class CredentialProvider : MembershipProvider
     {
+        private readonly Type _serviceType;
+
+        public CredentialProvider(Type serviceType)
+        {
+            _serviceType = serviceType;
+        }
+
         public override string ApplicationName
         {
             get
@@ -178,7 +187,8 @@ namespace AdventureWorks.Core.Person
 
         public override bool ValidateUser(string username, string password)
         {
-            return true;
+            if (_serviceType == typeof(Login.LoginService)) return true;
+            return PersonDal.ValidateUser(username);
         }
     }
 }

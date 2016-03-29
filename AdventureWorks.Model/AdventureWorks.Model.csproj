@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Login\CredentialModel.cs" />
+    <Compile Include="Login\LoginModel.cs" />
     <Compile Include="Person\enum.cs" />
     <Compile Include="Person\PersonModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

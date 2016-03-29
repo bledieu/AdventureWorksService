@@ -14,3 +14,5 @@ C:\Temp\AdventureWorksService\UnitTests\AdventureWorks.Core.UnitTests\bin\Debug\
 C:\Temp\AdventureWorksService\UnitTests\AdventureWorks.Core.UnitTests\bin\Debug\WCFMock.dll
 C:\Temp\AdventureWorksService\UnitTests\AdventureWorks.Core.UnitTests\bin\Debug\AdventureWorks.Core.dll
 C:\Temp\AdventureWorksService\UnitTests\AdventureWorks.Core.UnitTests\bin\Debug\AdventureWorks.Core.pdb
+C:\Temp\AdventureWorksService\UnitTests\AdventureWorks.Core.UnitTests\bin\Debug\Microsoft.ServiceModel.Web.dll
+C:\Temp\AdventureWorksService\UnitTests\AdventureWorks.Core.UnitTests\bin\Debug\BasicAuthenticationUsingWCF.dll

@@ -1,2 +1,2 @@
 ﻿<!--%@ ServiceHost Language="C#" Debug="true" Service="AdventureWorks.Core.Person.ServicePerson" CodeBehind="ServicePerson.svc.cs" %-->
-<%@ ServiceHost Language="C#" Debug="true" Service="AdventureWorks.Core.Person.ServicePerson" CodeBehind="ServicePerson.svc.cs" Factory="AdventureWorks.Core.Person.PersonHostFactory" %>
+<%@ ServiceHost Language="C#" Debug="true" Service="AdventureWorks.Core.Person.ServicePerson" CodeBehind="ServicePerson.svc.cs" Factory="AdventureWorks.Core.Security.CredentialHostFactory" %>

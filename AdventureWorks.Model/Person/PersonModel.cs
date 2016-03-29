@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Runtime.Serialization;
 
-namespace AdventureWorks.Model.Person
+namespace AdventureWorks.Model
 {
     [DataContract]
     public class PersonModel : IEquatable<PersonModel>

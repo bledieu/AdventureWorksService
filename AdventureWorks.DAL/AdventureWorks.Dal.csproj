@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="ARepositoryT.cs" />
     <Compile Include="IRepositoryT.cs" />
+    <Compile Include="Person\IPersonDal.cs" />
     <Compile Include="Person\PersonDal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
