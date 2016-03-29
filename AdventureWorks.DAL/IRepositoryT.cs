@@ -10,7 +10,7 @@ namespace AdventureWorks.Dal
     {
         IList<T> SelectAll();
         T GetOneById(int id);
-        bool Insert(T item);
+        T Insert(T item);
         bool Delete(int id);
         bool Update(T item);
     }

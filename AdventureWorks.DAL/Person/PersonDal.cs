@@ -57,11 +57,15 @@ namespace AdventureWorks.Dal
             return person.FirstOrDefault();
         }
 
-        public override bool Insert(PersonModel item)
+        public override PersonModel Insert(PersonModel item)
         {
             StringBuilder queryBuilder = new StringBuilder();
+            queryBuilder.AppendLine("DECLARE @Identity bigint;");
+            queryBuilder.AppendLine("INSERT INTO Person.BusinessEntity DEFAULT VALUES;");
+            queryBuilder.AppendLine("SELECT @Identity = @@IDENTITY;");
             queryBuilder.AppendLine("INSERT INTO Person.Person(BusinessEntityID, PersonType, Title, FirstName, LastName, ModifiedDate)");
-            queryBuilder.AppendLine("VALUES(@id, @type, @title, @firstName, @lastName, @modifiedDate)");
+            queryBuilder.AppendLine("VALUES(@Identity, @type, @title, @firstName, @lastName, @modifiedDate);");
+            queryBuilder.AppendLine("SELECT @Identity AS Result;");
 
             using (SqlConnection connection = new SqlConnection(this.ConnectionString))
             {
@@ -69,18 +73,26 @@ namespace AdventureWorks.Dal
                 {
                     connection.Open();
 
-                    command.Parameters.Add("@id", SqlDbType.Int).Value = item.Id;
                     command.Parameters.Add("@type", SqlDbType.VarChar).Value = item.Type.ToString();
                     command.Parameters.Add("@title", SqlDbType.VarChar).Value = item.Title;
                     command.Parameters.Add("@firstName", SqlDbType.VarChar).Value = item.FirstName;
                     command.Parameters.Add("@lastName", SqlDbType.VarChar).Value = item.LastName;
                     command.Parameters.Add("@modifiedDate", SqlDbType.DateTime).Value = DateTime.Now;
 
-                    int result = command.ExecuteNonQuery();
+                    foreach (IDataParameter param in command.Parameters) 
+                    {
+                        if (param.Value == null) param.Value = DBNull.Value;
+                    }
+
+                    var result = command.ExecuteScalar();
 
                     connection.Close();
 
-                    return (result == 1);
+                    if (result == null) return null;
+
+                    item = GetOneById((int)result);
+
+                    return item;
                 }
             }
         }
@@ -172,7 +184,7 @@ namespace AdventureWorks.Dal
             StringBuilder queryBuilder = new StringBuilder();
             queryBuilder.AppendLine("SELECT Per.BusinessEntityID, Per.PersonType, Per.Title, Per.FirstName, Per.MiddleName, Per.LastName, Per.ModifiedDate");
             queryBuilder.AppendLine("FROM Person.Person Per");
-            queryBuilder.AppendLine("   INNER JOIN Person.EmailAddress Mail ON Mail.BusinessEntityID = Per.BusinessEntityID");
+            queryBuilder.AppendLine("   LEFT OUTER JOIN Person.EmailAddress Mail ON Mail.BusinessEntityID = Per.BusinessEntityID");
 
             IList<string> where = new Collection<string>();
             if (id != null) where.Add("Per.BusinessEntityID = @id");

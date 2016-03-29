@@ -135,13 +135,13 @@ namespace AdventureWorks.Dal.Tests
             repository.Setup(r => r.Insert(It.IsAny<PersonModel>())).Returns(
                 (PersonModel target) =>
                     {
-                        if (target.Id != default(int)) return false;
+                        if (target.Id != default(int)) return null;
 
                         target.Id = persons.Max(x => x.Id) + 1;
                         target.ModifiedDate = DateTime.Now;
                         persons.Add(target);
 
-                        return true;
+                        return target;
                     }
                 );
             repository.Setup(r => r.Update(It.IsAny<PersonModel>())).Returns(
@@ -227,8 +227,8 @@ namespace AdventureWorks.Dal.Tests
             Assert.AreEqual(50, personCount); // Verify the expected Number pre-insert
 
             // Try saving our new person
-            bool result = this._repository.Insert(newPerson);
-            Assert.IsTrue(result);
+            newPerson = this._repository.Insert(newPerson);
+            Assert.IsNotNull(newPerson);
 
             // demand a recount
             personCount = _repository.SelectAll().Count;
@@ -253,8 +253,8 @@ namespace AdventureWorks.Dal.Tests
             Assert.IsNotNull(newPerson);
 
             // Try saving our new person
-            bool result = this._repository.Insert(newPerson);
-            Assert.IsFalse(result);
+            newPerson = this._repository.Insert(newPerson);
+            Assert.IsNull(newPerson);
         }
 
         [TestMethod]
