@@ -70,7 +70,7 @@ namespace AdventureWorks.UnitTests.Person
             int personsCount = _repository.SelectAll().Count();
 
             //act
-            var result = controller.AddOne(newPerson);
+            controller.CreateOne(newPerson);
 
             //assert
             Assert.AreEqual(personsCount + 1, _repository.SelectAll().Count());

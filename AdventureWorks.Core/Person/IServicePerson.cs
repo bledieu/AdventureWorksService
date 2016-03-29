@@ -1,4 +1,5 @@
-﻿using AdventureWorks.Model;
+﻿using AdventureWorks.Core.Core;
+using AdventureWorks.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,22 +11,26 @@ using System.Text;
 namespace AdventureWorks.Core.Person
 {
     [ServiceContract]
-    public interface IServicePerson
+    public interface IServicePerson : IService<PersonModel>
     {
         [OperationContract]
-        [WebGet(UriTemplate = "Persons/{personId}/", BodyStyle = WebMessageBodyStyle.Bare, RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        PersonModel GetOne(string personId);
+        [WebGet(UriTemplate = "Persons/", BodyStyle = WebMessageBodyStyle.Bare, RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        new IList<PersonModel> GetAll();
 
         [OperationContract]
-        [WebInvoke(Method = "DELETE", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, UriTemplate = "Persons/{personId}/")]
-        void DelOne(string personId);
+        [WebGet(UriTemplate = "Persons/{personId}/", BodyStyle = WebMessageBodyStyle.Bare, RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        new PersonModel GetOne(string personId);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, UriTemplate = "Persons/")]
+        new void CreateOne(PersonModel person);
 
         [OperationContract]
         [WebInvoke(Method = "PUT", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, UriTemplate = "Persons/{personId}/")]
-        void UpdateOne(PersonModel person, string personId);
+        new void UpdateOne(PersonModel person, string personId);
 
         [OperationContract]
-        [WebGet(UriTemplate = "Persons/", BodyStyle = WebMessageBodyStyle.Bare, RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        IList<PersonModel> GetAll();
+        [WebInvoke(Method = "DELETE", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, UriTemplate = "Persons/{personId}/")]
+        new void DeleteOne(string personId);
     }
 }

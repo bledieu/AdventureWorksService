@@ -14,8 +14,102 @@ namespace AdventureWorks.Dal
 {
     public class PersonDal : ARepositoryT<PersonModel>, IPersonDal
     {
+        #region static
+
+        public static IDictionary<string, LoginModel> _logins = new System.Collections.Concurrent.ConcurrentDictionary<string, LoginModel>();
+
+        public static bool ValidateUser(string username)
+        {
+            if (String.IsNullOrWhiteSpace(username)) return false;
+
+            if (!PersonDal._logins.ContainsKey(username)) return false;
+
+            LoginModel login = PersonDal._logins[username];
+            if ((DateTime.Now - login.LastLogonAt).TotalMinutes <= 20)
+            {
+                login.LastLogonAt = DateTime.Now;
+                return true;
+            }
+
+            PersonDal._logins.Remove(username);
+            return false;
+        }
+
+        #endregion
+
+        #region contructor
+
         public PersonDal() : base() { }
         public PersonDal(string connectionString) : base(connectionString) { }
+
+        #endregion
+
+        #region interface
+
+        public override IList<PersonModel> SelectAll()
+        {
+            return this.SelectPerson(null, null);
+        }
+
+        public override PersonModel GetOneById(int id)
+        {
+            IList<PersonModel> person = SelectPerson(id, null);
+            return person.FirstOrDefault();
+        }
+
+        public override bool Insert(PersonModel item)
+        {
+            StringBuilder queryBuilder = new StringBuilder();
+            queryBuilder.AppendLine("INSERT INTO Person.Person(BusinessEntityID, PersonType, Title, FirstName, LastName, ModifiedDate)");
+            queryBuilder.AppendLine("VALUES(@id, @type, @title, @firstName, @lastName, @modifiedDate)");
+
+            using (SqlConnection connection = new SqlConnection(this.ConnectionString))
+            {
+                using (SqlCommand command = new SqlCommand(queryBuilder.ToString(), connection))
+                {
+                    connection.Open();
+
+                    command.Parameters.Add("@id", SqlDbType.Int).Value = item.Id;
+                    command.Parameters.Add("@type", SqlDbType.VarChar).Value = item.Type.ToString();
+                    command.Parameters.Add("@title", SqlDbType.VarChar).Value = item.Title;
+                    command.Parameters.Add("@firstName", SqlDbType.VarChar).Value = item.FirstName;
+                    command.Parameters.Add("@lastName", SqlDbType.VarChar).Value = item.LastName;
+                    command.Parameters.Add("@modifiedDate", SqlDbType.DateTime).Value = DateTime.Now;
+
+                    int result = command.ExecuteNonQuery();
+
+                    connection.Close();
+
+                    return (result == 1);
+                }
+            }
+        }
+
+        public override bool Update(PersonModel item)
+        {
+            StringBuilder queryBuilder = new StringBuilder();
+            queryBuilder.AppendLine("UPDATE Person.Person");
+            queryBuilder.AppendLine("SET Title=@Title, FirstName=@FirstName, LastName=@LastName, PersonType=@PersonType, ModifiedDate=@ModifiedDate");
+            queryBuilder.AppendLine("WHERE BusinessEntityID = @id");
+
+            using (SqlConnection connection = new SqlConnection(this.ConnectionString))
+            {
+                using (SqlCommand command = new SqlCommand(queryBuilder.ToString(), connection))
+                {
+                    command.Parameters.Add("@id", SqlDbType.Int).Value = item.Id;
+                    command.Parameters.Add("@Title", SqlDbType.VarChar).Value = (item.Title != null) ? item.Title : (object)DBNull.Value;
+                    command.Parameters.Add("@FirstName", SqlDbType.VarChar).Value = item.FirstName;
+                    command.Parameters.Add("@LastName", SqlDbType.VarChar).Value = item.LastName;
+                    command.Parameters.Add("@PersonType", SqlDbType.NChar).Value = item.TypeString;
+                    command.Parameters.Add("@ModifiedDate", SqlDbType.DateTime).Value = item.ModifiedDate;
+
+                    command.Connection.Open();
+                    int result = command.ExecuteNonQuery();
+                    return (result == 1);
+
+                }
+            }
+        }
 
         public override bool Delete(int id)
         {
@@ -37,30 +131,7 @@ namespace AdventureWorks.Dal
             }
         }
 
-        public override PersonModel GetOneById(int id)
-        {
-            IList<PersonModel> person = SelectPerson(id, null);
-            return person.FirstOrDefault();
-        }
-
-        public static IDictionary<string, LoginModel> _logins = new System.Collections.Concurrent.ConcurrentDictionary<string, LoginModel>();
-
-        public static bool ValidateUser(string username)
-        {
-            if (String.IsNullOrWhiteSpace(username)) return false;
-
-            if (!PersonDal._logins.ContainsKey(username)) return false;
-
-            LoginModel login = PersonDal._logins[username];
-            if ((DateTime.Now - login.LastLogonAt).TotalMinutes <= 20)
-            {
-                login.LastLogonAt = DateTime.Now;
-                return true;
-        }
-
-            PersonDal._logins.Remove(username);
-            return false;
-        }
+        #endregion
 
         private bool ValidatePassword(CredentialModel credential)
         {
@@ -94,35 +165,6 @@ namespace AdventureWorks.Dal
             if (!ValidatePassword(credential)) return null;
 
             return person;
-        }
-
-        public override bool Insert(PersonModel item)
-        {
-            StringBuilder queryBuilder = new StringBuilder();
-            queryBuilder.AppendLine("INSERT INTO Person.Person(BusinessEntityID, PersonType, Title, FirstName, LastName, ModifiedDate)");
-            queryBuilder.AppendLine("VALUES(@id, @type, @title, @firstName, @lastName, @modifiedDate)");
-
-            using (SqlConnection connection = new SqlConnection(this.ConnectionString))
-            {
-                using (SqlCommand command = new SqlCommand(queryBuilder.ToString(), connection))
-                {
-                    command.Parameters.Add("@id", SqlDbType.Int).Value = item.Id;
-                    command.Parameters.Add("@type", SqlDbType.VarChar).Value = item.Type.ToString();
-                    command.Parameters.Add("@title", SqlDbType.VarChar).Value = item.Title;
-                    command.Parameters.Add("@firstName", SqlDbType.VarChar).Value = item.FirstName;
-                    command.Parameters.Add("@lastName", SqlDbType.VarChar).Value = item.LastName;
-                    command.Parameters.Add("@modifiedDate", SqlDbType.DateTime).Value = DateTime.Now;
-
-                    int result = command.ExecuteNonQuery();
-
-                    return (result == 1);
-                }
-            }
-        }
-
-        public override IList<PersonModel> SelectAll()
-        {
-            return this.SelectPerson(null, null);
         }
 
         private IList<PersonModel> SelectPerson(int? id, string email)
@@ -163,32 +205,6 @@ namespace AdventureWorks.Dal
                             return persons;
                         }
                     }
-                }
-            }
-        }
-
-        public override bool Update(PersonModel item)
-        {
-            StringBuilder queryBuilder = new StringBuilder();
-            queryBuilder.AppendLine("UPDATE Person.Person");
-            queryBuilder.AppendLine("SET Title=@Title, FirstName=@FirstName, LastName=@LastName, PersonType=@PersonType, ModifiedDate=@ModifiedDate");
-            queryBuilder.AppendLine("WHERE BusinessEntityID = @id");
-
-            using (SqlConnection connection = new SqlConnection(this.ConnectionString))
-            {
-                using (SqlCommand command = new SqlCommand(queryBuilder.ToString(), connection))
-                {
-                    command.Parameters.Add("@id", SqlDbType.Int).Value = item.Id;
-                    command.Parameters.Add("@Title", SqlDbType.VarChar).Value = (item.Title != null) ? item.Title : (object)DBNull.Value;
-                    command.Parameters.Add("@FirstName", SqlDbType.VarChar).Value = item.FirstName;
-                    command.Parameters.Add("@LastName", SqlDbType.VarChar).Value = item.LastName;
-                    command.Parameters.Add("@PersonType", SqlDbType.NChar).Value = item.TypeString;
-                    command.Parameters.Add("@ModifiedDate", SqlDbType.DateTime).Value = item.ModifiedDate;
-
-                    command.Connection.Open();
-                    int result = command.ExecuteNonQuery();
-                    return (result == 1);
-
                 }
             }
         }

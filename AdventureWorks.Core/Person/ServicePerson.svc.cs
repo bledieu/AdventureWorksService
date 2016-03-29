@@ -13,10 +13,10 @@ namespace AdventureWorks.Core.Person
 {
     public sealed class ServicePerson : AAuthenticatedService, IServicePerson
     {
-        private IRepositoryT<PersonModel> _repository;
+        private IPersonDal _repository;
 
         public ServicePerson() : this(new PersonDal()) { }
-        public ServicePerson(IRepositoryT<PersonModel> repository)
+        public ServicePerson(IPersonDal repository)
         {
             _repository = repository;
         }
@@ -33,13 +33,7 @@ namespace AdventureWorks.Core.Person
             return persons;
         }
 
-        public bool AddOne(PersonModel newPerson)
-        {
-            _repository.Insert(newPerson);
-            return true;
-        }
-
-        public void DelOne(string personId)
+        public void DeleteOne(string personId)
         {
             int id;
             if (Int32.TryParse(personId, out id)) _repository.Delete(id);
@@ -49,6 +43,11 @@ namespace AdventureWorks.Core.Person
         {
             int id;
             if (Int32.TryParse(personId, out id)) _repository.Update(person);
+        }
+
+        public void CreateOne(PersonModel newPerson)
+        {
+            _repository.Insert(newPerson);
         }
     }
 }
