@@ -15,6 +15,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdventureWorks.Dal", "Adven
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdventureWorks.Dal.Tests", "UnitTests\AdventureWorks.DAL.Tests\AdventureWorks.Dal.Tests.csproj", "{CAFD4F77-DA22-49E4-8EB1-9615372E1B56}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External Dependencies", "External Dependencies", "{3DB97C9B-CB4A-4E5A-8887-A8D2F92BF40D}"
+	ProjectSection(SolutionItems) = preProject
+		External Dependencies\BasicAuthenticationUsingWCF.dll = External Dependencies\BasicAuthenticationUsingWCF.dll
+		External Dependencies\Microsoft.ServiceModel.Web.dll = External Dependencies\Microsoft.ServiceModel.Web.dll
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
