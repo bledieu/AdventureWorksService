@@ -9,20 +9,26 @@ en modifiant ce fichier MSBuild. Pour en savoir plus à ce sujet, consultez la p
     <_PublishTargetUrl>C:\Temp\AdventureWorksService\Deployment</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
+    <File Include="bin/AdventureWorks.Core.dll">
+      <publishTime>03/23/2016 09:25:34</publishTime>
+    </File>
     <File Include="bin/AdventureWorks.Dal.dll">
-      <publishTime>03/29/2016 10:41:19</publishTime>
+      <publishTime>03/17/2016 12:24:16</publishTime>
     </File>
     <File Include="bin/AdventureWorks.Model.dll">
-      <publishTime>03/22/2016 14:36:00</publishTime>
+      <publishTime>03/17/2016 12:24:16</publishTime>
     </File>
     <File Include="bin/AventureWorks.Core.dll">
-      <publishTime>03/29/2016 10:41:19</publishTime>
+      <publishTime>03/20/2016 18:37:54</publishTime>
+    </File>
+    <File Include="bin/WCFMock.dll">
+      <publishTime>03/18/2016 12:30:12</publishTime>
     </File>
     <File Include="Person/ServicePerson.svc">
-      <publishTime>03/18/2016 09:02:14</publishTime>
+      <publishTime>03/22/2016 16:44:06</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>03/25/2016 16:51:27</publishTime>
+      <publishTime>03/23/2016 09:25:34</publishTime>
     </File>
   </ItemGroup>
 </Project>

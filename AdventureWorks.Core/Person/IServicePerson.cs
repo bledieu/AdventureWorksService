@@ -7,7 +7,7 @@ using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
 
-namespace AventureWorks.Core.Person
+namespace AdventureWorks.Core.Person
 {
     [ServiceContract]
     public interface IServicePerson

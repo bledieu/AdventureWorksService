@@ -1,5 +1,6 @@
 ﻿using AdventureWorks.Dal;
 using AdventureWorks.Model.Person;
+using AdventureWorks.Core.Security;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -8,9 +9,9 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
 
-namespace AventureWorks.Core.Person
+namespace AdventureWorks.Core.Person
 {
-    public class ServicePerson : IServicePerson
+    public sealed class ServicePerson : AAuthenticatedService, IServicePerson
     {
         private IRepositoryT<PersonModel> _repository;
 
@@ -22,6 +23,7 @@ namespace AventureWorks.Core.Person
 
         public PersonModel GetOne(string id)
         {
+            //this.CheckIfUserIsAuthenticated();
 
             var person = _repository.GetOneById(Convert.ToInt32(id, CultureInfo.InvariantCulture));
             return person;
