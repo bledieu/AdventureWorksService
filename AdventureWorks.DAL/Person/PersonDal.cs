@@ -90,7 +90,7 @@ namespace AdventureWorks.Dal
 
                     if (result == null) return null;
 
-                    item = GetOneById((int)result);
+                    item = GetOneById(Convert.ToInt32(result));
 
                     return item;
                 }

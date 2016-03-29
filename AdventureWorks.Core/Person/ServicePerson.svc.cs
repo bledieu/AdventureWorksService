@@ -45,9 +45,9 @@ namespace AdventureWorks.Core.Person
             if (Int32.TryParse(personId, out id)) _repository.Update(person);
         }
 
-        public void CreateOne(PersonModel newPerson)
+        public PersonModel CreateOne(PersonModel newPerson)
         {
-            _repository.Insert(newPerson);
+           return _repository.Insert(newPerson);
         }
     }
 }

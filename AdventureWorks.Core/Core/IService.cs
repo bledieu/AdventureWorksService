@@ -10,7 +10,7 @@ namespace AdventureWorks.Core.Core
     {
         T GetOne(string id);
 
-        void CreateOne(T data);
+        T CreateOne(T data);
 
         void UpdateOne(T data, string id);
 

@@ -23,7 +23,7 @@ namespace AdventureWorks.Core.Person
 
         [OperationContract]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, UriTemplate = "Persons/")]
-        new void CreateOne(PersonModel person);
+        new PersonModel CreateOne(PersonModel person);
 
         [OperationContract]
         [WebInvoke(Method = "PUT", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, UriTemplate = "Persons/{personId}/")]
