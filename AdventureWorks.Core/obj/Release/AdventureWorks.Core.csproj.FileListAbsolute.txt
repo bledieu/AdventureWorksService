@@ -8,3 +8,13 @@ C:\Temp\AdventureWorksService\AdventureWorks.Core\bin\AdventureWorks.Model.pdb
 C:\Temp\AdventureWorksService\AdventureWorks.Core\obj\Release\AdventureWorks.Core.csprojResolveAssemblyReference.cache
 C:\Temp\AdventureWorksService\AdventureWorks.Core\obj\Release\AventureWorks.Core.dll
 C:\Temp\AdventureWorksService\AdventureWorks.Core\obj\Release\AventureWorks.Core.pdb
+C:\Users\tes013\Source\Repos\AdventureWorksService\AdventureWorks.Core\bin\AventureWorks.Core.dll.config
+C:\Users\tes013\Source\Repos\AdventureWorksService\AdventureWorks.Core\bin\AventureWorks.Core.dll
+C:\Users\tes013\Source\Repos\AdventureWorksService\AdventureWorks.Core\bin\AventureWorks.Core.pdb
+C:\Users\tes013\Source\Repos\AdventureWorksService\AdventureWorks.Core\bin\AdventureWorks.Dal.dll
+C:\Users\tes013\Source\Repos\AdventureWorksService\AdventureWorks.Core\bin\AdventureWorks.Model.dll
+C:\Users\tes013\Source\Repos\AdventureWorksService\AdventureWorks.Core\bin\AdventureWorks.Dal.pdb
+C:\Users\tes013\Source\Repos\AdventureWorksService\AdventureWorks.Core\bin\AdventureWorks.Model.pdb
+C:\Users\tes013\Source\Repos\AdventureWorksService\AdventureWorks.Core\obj\Release\AdventureWorks.Core.csprojResolveAssemblyReference.cache
+C:\Users\tes013\Source\Repos\AdventureWorksService\AdventureWorks.Core\obj\Release\AventureWorks.Core.dll
+C:\Users\tes013\Source\Repos\AdventureWorksService\AdventureWorks.Core\obj\Release\AventureWorks.Core.pdb

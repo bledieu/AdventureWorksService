@@ -19,7 +19,22 @@ namespace AdventureWorks.Dal
 
         public override bool Delete(int id)
         {
-            throw new NotImplementedException();
+            string sqlQueryMail = "DELETE FROM Person.EmailAddress WHERE BusinessEntityID=@id";
+            string sqlQueryPerson = "DELETE FROM Person.Person WHERE BusinessEntityID=@id";
+
+            using (SqlConnection connection = new SqlConnection(this.ConnectionString))
+            {
+                using (SqlCommand command = new SqlCommand(sqlQueryMail, connection))
+                {
+                    command.Connection.Open();
+                    command.Parameters.Add("@id", SqlDbType.Int).Value = id;
+                    command.ExecuteNonQuery();
+
+                    command.CommandText = sqlQueryPerson;
+                    int result = command.ExecuteNonQuery();
+                    return (result == 1);
+                }
+            }
         }
 
         public override PersonModel GetOneById(int id)
@@ -59,13 +74,34 @@ namespace AdventureWorks.Dal
 
         public override bool Update(PersonModel item)
         {
-            throw new NotImplementedException();
+            StringBuilder queryBuilder = new StringBuilder();
+            queryBuilder.AppendLine("UPDATE Person.Person");
+            queryBuilder.AppendLine("SET Title=@Title, FirstName=@FirstName, LastName=@LastName, PersonType=@PersonType, ModifiedDate=@ModifiedDate");
+            queryBuilder.AppendLine("WHERE BusinessEntityID = @id");
+
+            using (SqlConnection connection = new SqlConnection(this.ConnectionString))
+            {
+                using (SqlCommand command = new SqlCommand(queryBuilder.ToString(), connection))
+                {
+                    command.Parameters.Add("@id", SqlDbType.Int).Value = item.Id;
+                    command.Parameters.Add("@Title", SqlDbType.VarChar).Value = (item.Title != null) ? item.Title : (object)DBNull.Value;
+                    command.Parameters.Add("@FirstName", SqlDbType.VarChar).Value = item.FirstName;
+                    command.Parameters.Add("@LastName", SqlDbType.VarChar).Value = item.LastName;
+                    command.Parameters.Add("@PersonType", SqlDbType.NChar).Value = item.TypeString;
+                    command.Parameters.Add("@ModifiedDate", SqlDbType.DateTime).Value = item.ModifiedDate;
+
+                    command.Connection.Open();
+                    int result = command.ExecuteNonQuery();
+                    return (result == 1);
+
+                }
+            }
         }
 
         private IList<PersonModel> SelectPerson(int? id)
         {
             StringBuilder queryBuilder = new StringBuilder();
-            queryBuilder.AppendLine("SELECT BusinessEntityID, Title, FirstName, MiddleName, LastName, ModifiedDate");
+            queryBuilder.AppendLine("SELECT BusinessEntityID, PersonType, Title, FirstName, MiddleName, LastName, ModifiedDate");
             queryBuilder.AppendLine("FROM Person.Person");
             if (id != null) queryBuilder.AppendLine("WHERE BusinessEntityID = @id");
 
@@ -83,6 +119,7 @@ namespace AdventureWorks.Dal
 
                             IList<PersonModel> persons = (from DataRow row in dt.Rows
                                                           select new PersonModel(row.Field<int>("BusinessEntityID"),
+                                                                                 (PersonType)Enum.Parse(typeof(PersonType), row.Field<string>("PersonType"), true),
                                                                                  row.Field<string>("Title"),
                                                                                  row.Field<string>("FirstName"),
                                                                                  row.Field<string>("LastName"))

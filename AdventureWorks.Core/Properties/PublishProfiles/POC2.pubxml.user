@@ -10,19 +10,19 @@ en modifiant ce fichier MSBuild. Pour en savoir plus à ce sujet, consultez la p
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/AdventureWorks.Dal.dll">
-      <publishTime>03/17/2016 12:24:16</publishTime>
+      <publishTime>03/29/2016 10:41:19</publishTime>
     </File>
     <File Include="bin/AdventureWorks.Model.dll">
-      <publishTime>03/17/2016 12:24:16</publishTime>
+      <publishTime>03/22/2016 14:36:00</publishTime>
     </File>
     <File Include="bin/AventureWorks.Core.dll">
-      <publishTime>03/17/2016 14:46:42</publishTime>
+      <publishTime>03/29/2016 10:41:19</publishTime>
     </File>
     <File Include="Person/ServicePerson.svc">
-      <publishTime>03/16/2016 09:20:02</publishTime>
+      <publishTime>03/18/2016 09:02:14</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>03/17/2016 14:18:03</publishTime>
+      <publishTime>03/25/2016 16:51:27</publishTime>
     </File>
   </ItemGroup>
 </Project>

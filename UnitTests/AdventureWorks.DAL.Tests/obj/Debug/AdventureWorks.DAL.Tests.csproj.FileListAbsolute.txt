@@ -11,3 +11,16 @@ C:\Temp\AdventureWorksService\UnitTests\AdventureWorks.DAL.Tests\obj\Debug\Adven
 C:\Temp\AdventureWorksService\UnitTests\AdventureWorks.DAL.Tests\obj\Debug\AdventureWorks.DAL.Tests.pdb
 C:\Temp\AdventureWorksService\UnitTests\AdventureWorks.DAL.Tests\bin\Debug\Moq.dll
 C:\Temp\AdventureWorksService\UnitTests\AdventureWorks.DAL.Tests\bin\Debug\Moq.xml
+C:\Users\tes013\Source\Repos\AdventureWorksService\UnitTests\AdventureWorks.DAL.Tests\bin\Debug\AdventureWorks.DAL.Tests.dll
+C:\Users\tes013\Source\Repos\AdventureWorksService\UnitTests\AdventureWorks.DAL.Tests\bin\Debug\AdventureWorks.DAL.Tests.pdb
+C:\Users\tes013\Source\Repos\AdventureWorksService\UnitTests\AdventureWorks.DAL.Tests\bin\Debug\AdventureWorks.Dal.dll
+C:\Users\tes013\Source\Repos\AdventureWorksService\UnitTests\AdventureWorks.DAL.Tests\bin\Debug\AdventureWorks.Model.dll
+C:\Users\tes013\Source\Repos\AdventureWorksService\UnitTests\AdventureWorks.DAL.Tests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Users\tes013\Source\Repos\AdventureWorksService\UnitTests\AdventureWorks.DAL.Tests\bin\Debug\Moq.dll
+C:\Users\tes013\Source\Repos\AdventureWorksService\UnitTests\AdventureWorks.DAL.Tests\bin\Debug\AdventureWorks.Dal.pdb
+C:\Users\tes013\Source\Repos\AdventureWorksService\UnitTests\AdventureWorks.DAL.Tests\bin\Debug\AdventureWorks.Model.pdb
+C:\Users\tes013\Source\Repos\AdventureWorksService\UnitTests\AdventureWorks.DAL.Tests\bin\Debug\Moq.xml
+C:\Users\tes013\Source\Repos\AdventureWorksService\UnitTests\AdventureWorks.DAL.Tests\bin\Debug\fr\Microsoft.VisualStudio.QualityTools.UnitTestFramework.resources.dll
+C:\Users\tes013\Source\Repos\AdventureWorksService\UnitTests\AdventureWorks.DAL.Tests\obj\Debug\AdventureWorks.Dal.Tests.csprojResolveAssemblyReference.cache
+C:\Users\tes013\Source\Repos\AdventureWorksService\UnitTests\AdventureWorks.DAL.Tests\obj\Debug\AdventureWorks.DAL.Tests.dll
+C:\Users\tes013\Source\Repos\AdventureWorksService\UnitTests\AdventureWorks.DAL.Tests\obj\Debug\AdventureWorks.DAL.Tests.pdb

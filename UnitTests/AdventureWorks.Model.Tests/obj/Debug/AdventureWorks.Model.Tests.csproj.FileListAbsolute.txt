@@ -7,3 +7,12 @@ C:\Temp\AdventureWorksService\UnitTests\AdventureWorks.Model.Tests\bin\Debug\Adv
 C:\Temp\AdventureWorksService\UnitTests\AdventureWorks.Model.Tests\bin\Debug\Moq.xml
 C:\Temp\AdventureWorksService\UnitTests\AdventureWorks.Model.Tests\obj\Debug\AdventureWorks.Model.Tests.dll
 C:\Temp\AdventureWorksService\UnitTests\AdventureWorks.Model.Tests\obj\Debug\AdventureWorks.Model.Tests.pdb
+C:\Users\tes013\Source\Repos\AdventureWorksService\UnitTests\AdventureWorks.Model.Tests\bin\Debug\AdventureWorks.Model.Tests.dll
+C:\Users\tes013\Source\Repos\AdventureWorksService\UnitTests\AdventureWorks.Model.Tests\bin\Debug\AdventureWorks.Model.Tests.pdb
+C:\Users\tes013\Source\Repos\AdventureWorksService\UnitTests\AdventureWorks.Model.Tests\bin\Debug\AdventureWorks.Model.dll
+C:\Users\tes013\Source\Repos\AdventureWorksService\UnitTests\AdventureWorks.Model.Tests\bin\Debug\Moq.dll
+C:\Users\tes013\Source\Repos\AdventureWorksService\UnitTests\AdventureWorks.Model.Tests\bin\Debug\AdventureWorks.Model.pdb
+C:\Users\tes013\Source\Repos\AdventureWorksService\UnitTests\AdventureWorks.Model.Tests\bin\Debug\Moq.xml
+C:\Users\tes013\Source\Repos\AdventureWorksService\UnitTests\AdventureWorks.Model.Tests\obj\Debug\AdventureWorks.Model.Tests.csprojResolveAssemblyReference.cache
+C:\Users\tes013\Source\Repos\AdventureWorksService\UnitTests\AdventureWorks.Model.Tests\obj\Debug\AdventureWorks.Model.Tests.dll
+C:\Users\tes013\Source\Repos\AdventureWorksService\UnitTests\AdventureWorks.Model.Tests\obj\Debug\AdventureWorks.Model.Tests.pdb

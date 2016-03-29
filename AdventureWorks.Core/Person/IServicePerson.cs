@@ -17,6 +17,14 @@ namespace AventureWorks.Core.Person
         PersonModel GetOne(string personId);
 
         [OperationContract]
+        [WebInvoke(Method = "DELETE", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, UriTemplate = "Persons/{personId}/")]
+        void DelOne(string personId);
+
+        [OperationContract]
+        [WebInvoke(Method = "PUT", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, UriTemplate = "Persons/{personId}/")]
+        void UpdateOne(PersonModel person, string personId);
+
+        [OperationContract]
         [WebGet(UriTemplate = "Persons/", BodyStyle = WebMessageBodyStyle.Bare, RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         IList<PersonModel> GetAll();
     }

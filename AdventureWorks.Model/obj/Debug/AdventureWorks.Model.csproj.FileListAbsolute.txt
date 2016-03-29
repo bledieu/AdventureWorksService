@@ -3,3 +3,8 @@ C:\Temp\AdventureWorksService\AdventureWorks.Model\bin\Debug\AdventureWorks.Mode
 C:\Temp\AdventureWorksService\AdventureWorks.Model\obj\Debug\AdventureWorks.Model.csprojResolveAssemblyReference.cache
 C:\Temp\AdventureWorksService\AdventureWorks.Model\obj\Debug\AdventureWorks.Model.dll
 C:\Temp\AdventureWorksService\AdventureWorks.Model\obj\Debug\AdventureWorks.Model.pdb
+C:\Users\tes013\Source\Repos\AdventureWorksService\AdventureWorks.Model\bin\Debug\AdventureWorks.Model.dll
+C:\Users\tes013\Source\Repos\AdventureWorksService\AdventureWorks.Model\bin\Debug\AdventureWorks.Model.pdb
+C:\Users\tes013\Source\Repos\AdventureWorksService\AdventureWorks.Model\obj\Debug\AdventureWorks.Model.dll
+C:\Users\tes013\Source\Repos\AdventureWorksService\AdventureWorks.Model\obj\Debug\AdventureWorks.Model.pdb
+C:\Users\tes013\Source\Repos\AdventureWorksService\AdventureWorks.Model\obj\Debug\AdventureWorks.Model.csprojResolveAssemblyReference.cache

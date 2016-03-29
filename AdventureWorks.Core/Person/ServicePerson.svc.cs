@@ -38,5 +38,17 @@ namespace AventureWorks.Core.Person
             _repository.Insert(newPerson);
             return true;
         }
+
+        public void DelOne(string personId)
+        {
+            int id;
+            if (Int32.TryParse(personId, out id)) _repository.Delete(id);
+        }
+
+        public void UpdateOne(PersonModel person, string personId)
+        {
+            int id;
+            if (Int32.TryParse(personId, out id)) _repository.Update(person);
+        }
     }
 }
