@@ -19,6 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External Dependencies", "Ex
 	ProjectSection(SolutionItems) = preProject
 		External Dependencies\BasicAuthenticationUsingWCF.dll = External Dependencies\BasicAuthenticationUsingWCF.dll
 		External Dependencies\Microsoft.ServiceModel.Web.dll = External Dependencies\Microsoft.ServiceModel.Web.dll
+		External Dependencies\WCFMock.dll = External Dependencies\WCFMock.dll
 	EndProjectSection
 EndProject
 Global
