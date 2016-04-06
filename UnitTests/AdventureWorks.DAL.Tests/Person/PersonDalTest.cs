@@ -151,6 +151,7 @@ namespace AdventureWorks.Dal.Tests
                         if (original == null) return false;
 
                         original.Title = target.Title;
+                        original.Type = target.Type;
                         original.FirstName = target.FirstName;
                         original.LastName = target.LastName;
                         original.ModifiedDate = DateTime.Now;

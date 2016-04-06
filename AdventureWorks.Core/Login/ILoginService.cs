@@ -15,6 +15,5 @@ namespace AdventureWorks.Core.Login
         [OperationContract]
         [WebInvoke(UriTemplate = "Login/", BodyStyle = WebMessageBodyStyle.Bare, RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         PersonModel Login(CredentialModel credential);
-
     }
 }

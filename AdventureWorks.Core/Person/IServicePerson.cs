@@ -17,8 +17,9 @@ namespace AdventureWorks.Core.Person
         [WebGet(UriTemplate = "Persons/", BodyStyle = WebMessageBodyStyle.Bare, RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         new IList<PersonModel> GetAll();
 
-        [OperationContract]
         [WebGet(UriTemplate = "Persons/{personId}/", BodyStyle = WebMessageBodyStyle.Bare, RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        [OperationContract]
+        [FaultContract(typeof(CoreDetailedException))]
         new PersonModel GetOne(string personId);
 
         [OperationContract]

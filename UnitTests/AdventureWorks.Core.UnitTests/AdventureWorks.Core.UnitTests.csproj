@@ -63,7 +63,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Person\ServicePersonTest.cs" />
+    <Compile Include="Person\AServicePersonTest.cs" />
+    <Compile Include="Person\ServicePerson_DeleteOne.cs" />
+    <Compile Include="Person\ServicePerson_GetOne.cs" />
+    <Compile Include="Person\ServicePerson_CreateOne.cs" />
+    <Compile Include="Person\ServicePerson_GetAll.cs" />
+    <Compile Include="Person\ServicePerson_UpdateOne.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

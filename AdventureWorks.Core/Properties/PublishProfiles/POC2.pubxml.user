@@ -10,13 +10,13 @@ en modifiant ce fichier MSBuild. Pour en savoir plus à ce sujet, consultez la p
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/AdventureWorks.Core.dll">
-      <publishTime>03/25/2016 11:55:56</publishTime>
+      <publishTime>04/06/2016 11:36:20</publishTime>
     </File>
     <File Include="bin/AdventureWorks.Dal.dll">
-      <publishTime>03/25/2016 11:55:56</publishTime>
+      <publishTime>03/31/2016 15:40:22</publishTime>
     </File>
     <File Include="bin/AdventureWorks.Model.dll">
-      <publishTime>03/24/2016 16:48:32</publishTime>
+      <publishTime>03/29/2016 11:37:36</publishTime>
     </File>
     <File Include="bin/AventureWorks.Core.dll">
       <publishTime>03/20/2016 18:37:54</publishTime>
@@ -37,7 +37,7 @@ en modifiant ce fichier MSBuild. Pour en savoir plus à ce sujet, consultez la p
       <publishTime>03/23/2016 21:31:40</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>03/25/2016 11:55:56</publishTime>
+      <publishTime>04/06/2016 11:36:21</publishTime>
     </File>
   </ItemGroup>
 </Project>
