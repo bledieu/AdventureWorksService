@@ -1,4 +1,5 @@
 ﻿using AdventureWorks.Model;
+using FirebirdSql.Data.FirebirdClient;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -67,9 +68,9 @@ namespace AdventureWorks.Dal
             queryBuilder.AppendLine("VALUES(@Identity, @type, @title, @firstName, @lastName, @modifiedDate);");
             queryBuilder.AppendLine("SELECT @Identity AS Result;");
 
-            using (SqlConnection connection = new SqlConnection(this.ConnectionString))
+            using (FbConnection connection = new FbConnection(this.ConnectionString))
             {
-                using (SqlCommand command = new SqlCommand(queryBuilder.ToString(), connection))
+                using (FbCommand command = new FbCommand(queryBuilder.ToString(), connection))
                 {
                     connection.Open();
 
@@ -104,9 +105,9 @@ namespace AdventureWorks.Dal
             queryBuilder.AppendLine("SET Title=@Title, FirstName=@FirstName, LastName=@LastName, PersonType=@PersonType, ModifiedDate=@ModifiedDate");
             queryBuilder.AppendLine("WHERE BusinessEntityID = @id");
 
-            using (SqlConnection connection = new SqlConnection(this.ConnectionString))
+            using (FbConnection connection = new FbConnection(this.ConnectionString))
             {
-                using (SqlCommand command = new SqlCommand(queryBuilder.ToString(), connection))
+                using (FbCommand command = new FbCommand(queryBuilder.ToString(), connection))
                 {
                     command.Parameters.Add("@id", SqlDbType.Int).Value = item.Id;
                     command.Parameters.Add("@Title", SqlDbType.VarChar).Value = (item.Title != null) ? item.Title : (object)DBNull.Value;
@@ -128,9 +129,9 @@ namespace AdventureWorks.Dal
             string sqlQueryMail = "DELETE FROM Person.EmailAddress WHERE BusinessEntityID=@id";
             string sqlQueryPerson = "DELETE FROM Person.Person WHERE BusinessEntityID=@id";
 
-            using (SqlConnection connection = new SqlConnection(this.ConnectionString))
+            using (FbConnection connection = new FbConnection(this.ConnectionString))
             {
-                using (SqlCommand command = new SqlCommand(sqlQueryMail, connection))
+                using (FbCommand command = new FbCommand(sqlQueryMail, connection))
                 {
                     command.Connection.Open();
                     command.Parameters.Add("@id", SqlDbType.Int).Value = id;
@@ -183,24 +184,25 @@ namespace AdventureWorks.Dal
         {
             StringBuilder queryBuilder = new StringBuilder();
             queryBuilder.AppendLine("SELECT Per.BusinessEntityID, Per.PersonType, Per.Title, Per.FirstName, Per.MiddleName, Per.LastName, Per.ModifiedDate");
-            queryBuilder.AppendLine("FROM Person.Person Per");
-            queryBuilder.AppendLine("   LEFT OUTER JOIN Person.EmailAddress Mail ON Mail.BusinessEntityID = Per.BusinessEntityID");
+            queryBuilder.AppendLine("FROM Person Per");
+            queryBuilder.AppendLine("   LEFT OUTER JOIN EmailAddress Mail ON Mail.BusinessEntityID = Per.BusinessEntityID");
 
             IList<string> where = new Collection<string>();
             if (id != null) where.Add("Per.BusinessEntityID = @id");
             if (!String.IsNullOrWhiteSpace(email)) where.Add("Mail.EmailAddress = @email");
             if (where.Count > 0) queryBuilder.AppendLine(String.Format("WHERE {0};", String.Join(" AND ", where)));
+            queryBuilder.Append(";");
 
-            using (SqlConnection connection = new SqlConnection(this.ConnectionString))
+            using (FbConnection connection = new FbConnection(this.ConnectionString))
             {
-                using (SqlCommand command = new SqlCommand(queryBuilder.ToString(), connection))
+                using (FbCommand command = new FbCommand(queryBuilder.ToString(), connection))
                 {
-                    if (id != null) command.Parameters.Add("@id", SqlDbType.Int).Value = id;
-                    if (!String.IsNullOrWhiteSpace(email)) command.Parameters.Add("@email", SqlDbType.VarChar).Value = email;
+                    if (id != null) command.Parameters.Add("@id", FbDbType.Integer).Value = id;
+                    if (!String.IsNullOrWhiteSpace(email)) command.Parameters.Add("@email", FbDbType.VarChar).Value = email;
 
                     using (DataTable dt = new DataTable() { Locale = CultureInfo.CurrentCulture, })
                     {
-                        using (SqlDataAdapter da = new SqlDataAdapter(command))
+                        using (FbDataAdapter da = new FbDataAdapter(command))
                         {
                             da.Fill(dt);
 
@@ -227,19 +229,19 @@ namespace AdventureWorks.Dal
 
             StringBuilder queryBuilder = new StringBuilder();
             queryBuilder.AppendLine("SELECT Pass.PasswordSalt, Pass.PasswordHash");
-            queryBuilder.AppendLine("FROM Person.Password Pass");
-            queryBuilder.AppendLine("   INNER JOIN Person.EmailAddress Mail ON Mail.BusinessEntityID = Pass.BusinessEntityID");
-            queryBuilder.AppendLine("WHERE Mail.EmailAddress = @email");
-
-            using (SqlConnection connection = new SqlConnection(this.ConnectionString))
+            queryBuilder.AppendLine("FROM Password Pass");
+            queryBuilder.AppendLine("   INNER JOIN EmailAddress Mail ON Mail.BusinessEntityID = Pass.BusinessEntityID");
+            queryBuilder.AppendLine("WHERE Mail.EmailAddress = @email;");
+            
+            using (FbConnection connection = new FbConnection(this.ConnectionString))
             {
-                using (SqlCommand command = new SqlCommand(queryBuilder.ToString(), connection))
+                using (FbCommand command = new FbCommand(queryBuilder.ToString(), connection))
                 {
                     command.Parameters.Add("@email", SqlDbType.VarChar).Value = email;
 
                     using (DataTable dt = new DataTable() { Locale = CultureInfo.CurrentCulture, })
                     {
-                        using (SqlDataAdapter da = new SqlDataAdapter(command))
+                        using (FbDataAdapter da = new FbDataAdapter(command))
                         {
                             da.Fill(dt);
 
@@ -261,14 +263,17 @@ namespace AdventureWorks.Dal
         public void UpdatePassword(string email, string password)
         {
             StringBuilder queryBuilder = new StringBuilder();
-            queryBuilder.AppendLine("UPDATE Pass SET PasswordHash = @hash");
-            queryBuilder.AppendLine("FROM Person.Password Pass");
-            queryBuilder.AppendLine("   INNER JOIN Person.EmailAddress Mail ON Mail.BusinessEntityID = Pass.BusinessEntityID");
-            queryBuilder.AppendLine("WHERE Mail.EmailAddress = @email");
-            
-            using (SqlConnection connection = new SqlConnection(this.ConnectionString))
+            queryBuilder.AppendLine("UPDATE Password SET PasswordHash = @hash");
+            queryBuilder.AppendLine("WHERE BusinessEntityID = (SELECT Mail.BusinessEntityID");
+            queryBuilder.AppendLine("                          FROM EmailAddress Mail");
+            queryBuilder.AppendLine("                          WHERE Mail.EmailAddress = @email);");
+            //queryBuilder.AppendLine("FROM Password Pass");
+            //queryBuilder.AppendLine("   INNER JOIN EmailAddress Mail ON Mail.BusinessEntityID = Pass.BusinessEntityID");
+            //queryBuilder.AppendLine("WHERE Mail.EmailAddress = @email;");
+
+            using (FbConnection connection = new FbConnection(this.ConnectionString))
             {
-                using (SqlCommand command = new SqlCommand(queryBuilder.ToString(), connection))
+                using (FbCommand command = new FbCommand(queryBuilder.ToString(), connection))
                 {
                     command.Parameters.Add("@email", SqlDbType.VarChar).Value = email;
                     command.Parameters.Add("@hash", SqlDbType.VarChar).Value = password;
