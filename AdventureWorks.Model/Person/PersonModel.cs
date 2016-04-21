@@ -80,15 +80,9 @@ namespace AdventureWorks.Model
             }
         }
 
-        public PersonModel() { }
-        public PersonModel(int id, string title, string firstName, string lastName) : this(id, PersonType.EM, title, firstName, lastName) { }
-        public PersonModel(int id, PersonType type, string title, string firstName, string lastName)
+        public PersonModel()
         {
-            Id = id;
-            Type = type;
-            Title = title;
-            FirstName = firstName;
-            LastName = lastName;
+            Type = PersonType.EM;
         }
 
         public override bool Equals(object obj)

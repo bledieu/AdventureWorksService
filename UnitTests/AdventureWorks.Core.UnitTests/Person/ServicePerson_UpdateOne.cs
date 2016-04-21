@@ -1,10 +1,10 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.ServiceModel;
-using AdventureWorks.Core;
+﻿using AdventureWorks.Core;
 using AdventureWorks.Core.Person;
 using AdventureWorks.Model;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System;
+using System.ServiceModel;
 
 namespace AdventureWorks.UnitTests.Person
 {
@@ -24,7 +24,7 @@ namespace AdventureWorks.UnitTests.Person
         {
             //arrange
             DateTime modifiedDate = _person.ModifiedDate;
-            PersonModel person = new PersonModel(2, PersonType.IN, "M.", "Ronald", "McDonald");
+            PersonModel person = new PersonModel() { Id = 2, Type = PersonType.IN, Title = "M.", FirstName = "Ronald", LastName = "McDonald", };
             ServicePerson controller = new ServicePerson(_repository);
 
             //act
@@ -110,7 +110,7 @@ namespace AdventureWorks.UnitTests.Person
         {
             //arrange
             ServicePerson controller = new ServicePerson(_repository);
-            PersonModel person = new PersonModel(250, PersonType.IN, "M.", "Ronald", "McDonald");
+            PersonModel person = new PersonModel() { Id = 250, Type = PersonType.IN, Title = "M.", FirstName = "Ronald", LastName = "McDonald", };
 
             //act
             try { controller.UpdateOne(person, "250"); }
@@ -132,7 +132,7 @@ namespace AdventureWorks.UnitTests.Person
             //arrange
             _mockedRepository.Setup(r => r.Update(It.IsAny<PersonModel>())).Returns((PersonModel p) => { return false; });
             ServicePerson controller = new ServicePerson(_repository);
-            
+
             //act
             try { controller.UpdateOne(_person, "2"); }
             //assert

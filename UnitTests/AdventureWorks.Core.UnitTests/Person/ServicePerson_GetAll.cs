@@ -1,11 +1,10 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AdventureWorks.Core.Person;
-using System.Collections.Generic;
+﻿using AdventureWorks.Core.Person;
 using AdventureWorks.Model;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System;
+using System.Collections.Generic;
 using System.ServiceModel;
-using AdventureWorks.Core;
 
 namespace AdventureWorks.UnitTests.Person
 {

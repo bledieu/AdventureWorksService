@@ -1,9 +1,8 @@
-﻿using System;
+﻿using AdventureWorks.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AdventureWorks.Dal;
-using System.Collections.Generic;
-using AdventureWorks.Model;
 using Moq;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace AdventureWorks.Dal.Tests
@@ -11,7 +10,11 @@ namespace AdventureWorks.Dal.Tests
     [TestClass]
     public class PersonDalTest
     {
-        private readonly string _connectionStringTestDb = @"Data Source=SVR-STONER.tesfri.intra\HERMES;Initial Catalog=AdventureWorks2012;Persist Security Info=False;User ID=team_project;Password=K@r@m@z0v;Connect Timeout=5;";
+        private readonly string _connectionStringTestDb = @"Data Source=SVR-STONER.tesfri.intra\HERMES;Initial Catalog=AdventureWorksDB;Persist Security Info=False;User ID=team_project;Password=K@r@m@z0v;Connect Timeout=5;";
+        private readonly string _providerNameTestDb = @"System.Data.SqlClient";
+
+        static int _originalPersonsCount = 0;
+        static int _maxPersonID = 0;
 
         public static Mock<IPersonDal> GetMockedRepository()
         {
@@ -19,114 +22,60 @@ namespace AdventureWorks.Dal.Tests
 
             IList<PersonModel> persons = new List<PersonModel>
             {
-                new PersonModel(2, PersonType.EM, "", "Terri", "Duffy"),
-                new PersonModel(3, PersonType.EM, "", "Roberto", "Tamburello"),
-                new PersonModel(4, PersonType.EM, "", "Rob", "Walters"),
-                new PersonModel(5, PersonType.EM, "Ms.", "Gail", "Erickson"),
-                new PersonModel(6, PersonType.EM, "Mr.", "Jossef", "Goldberg"),
-                new PersonModel(7, PersonType.EM, "", "Dylan", "Miller"),
-                new PersonModel(8, PersonType.EM, "", "Diane", "Margheim"),
-                new PersonModel(9, PersonType.EM, "", "Gigi", "Matthew"),
-                new PersonModel(10, PersonType.EM, "", "Michael", "Raheem"),
-                new PersonModel(11, PersonType.EM, "", "Ovidiu", "Cracium"),
-                new PersonModel(12, PersonType.EM, "", "Thierry", "D'Hers"),
-                new PersonModel(13, PersonType.EM, "Ms.", "Janice", "Galvin"),
-                new PersonModel(14, PersonType.EM, "", "Michael", "Sullivan"),
-                new PersonModel(15, PersonType.EM, "", "Sharon", "Salavaria"),
-                new PersonModel(16, PersonType.EM, "", "David", "Bradley"),
-                new PersonModel(17, PersonType.EM, "", "Kevin", "Brown"),
-                new PersonModel(18, PersonType.EM, "", "John", "Wood"),
-                new PersonModel(19, PersonType.EM, "", "Mary", "Dempsey"),
-                new PersonModel(20, PersonType.EM, "", "Wanida", "Benshoof"),
-                new PersonModel(21, PersonType.EM, "", "Terry", "Eminhizer"),
-                new PersonModel(22, PersonType.EM, "", "Sariya", "Harnpadoungsataya"),
-                new PersonModel(23, PersonType.EM, "", "Mary", "Gibson"),
-                new PersonModel(24, PersonType.EM, "Ms.", "Jill", "Williams"),
-                new PersonModel(25, PersonType.EM, "", "James", "Hamilton"),
-                new PersonModel(26, PersonType.EM, "", "Peter", "Krebs"),
-                new PersonModel(27, PersonType.EM, "", "Jo", "Brown"),
-                new PersonModel(28, PersonType.EM, "", "Guy", "Gilbert"),
-                new PersonModel(29, PersonType.EM, "", "Mark", "McArthur"),
-                new PersonModel(30, PersonType.EM, "", "Britta", "Simon"),
-                new PersonModel(31, PersonType.EM, "", "Margie", "Shoop"),
-                new PersonModel(32, PersonType.EM, "", "Rebecca", "Laszlo"),
-                new PersonModel(33, PersonType.EM, "", "Annik", "Stahl"),
-                new PersonModel(34, PersonType.EM, "", "Suchitra", "Mohan"),
-                new PersonModel(35, PersonType.EM, "", "Brandon", "Heidepriem"),
-                new PersonModel(36, PersonType.EM, "", "Jose", "Lugo"),
-                new PersonModel(37, PersonType.EM, "", "Chris", "Okelberry"),
-                new PersonModel(38, PersonType.EM, "", "Kim", "Abercrombie"),
-                new PersonModel(39, PersonType.EM, "", "Ed", "Dudenhoefer"),
-                new PersonModel(40, PersonType.EM, "", "JoLynn", "Dobney"),
-                new PersonModel(41, PersonType.EM, "", "Bryan", "Baker"),
-                new PersonModel(42, PersonType.EM, "", "James", "Kramer"),
-                new PersonModel(43, PersonType.EM, "", "Nancy", "Anderson"),
-                new PersonModel(44, PersonType.EM, "", "Simon", "Rapier"),
-                new PersonModel(45, PersonType.EM, "", "Thomas", "Michaels"),
-                new PersonModel(46, PersonType.EM, "", "Eugene", "Kogan"),
-                new PersonModel(47, PersonType.EM, "", "Andrew", "Hill"),
-                new PersonModel(48, PersonType.EM, "", "Ruth", "Ellerbrock"),
-                new PersonModel(49, PersonType.EM, "", "Barry", "Johnson"),
-                new PersonModel(50, PersonType.EM, "", "Sidney", "Higa"),
-                new PersonModel(51, PersonType.EM, "", "Jeffrey", "Ford"),
+                new PersonWithCredentialModel() { Id = 1, Type = PersonType.VC, FirstName = "Gigi46-2", LastName = "dsfsdfsf3", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "gdsfsdfsf3@adventure-works.com", Salt = @"@JEassx5egT8KMOj]^yrI-2Y_", Hash = @"1B5AF6B79A25867C6734FB85DBAF31", },
+                new PersonWithCredentialModel() { Id = 2, Type = PersonType.EM, FirstName = "Robert1-3", LastName = "Tamburello", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "rtamburello@adventure-works.com", Salt = @"@9MsQPOEF@#79VvCV8wFe-?@J", Hash = @"94AEB671E5D9FC57F05BC9C7C199CE", },
+                new PersonWithCredentialModel() { Id = 3, Type = PersonType.EM, FirstName = "Rob-4", LastName = "Walters", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "rwalters@adventure-works.com", Salt = @"@9MsQPOEF@#79VvCV8wFe-?@J", Hash = @"39672DF2E73F81F27833A5201CB22C", },
+                new PersonWithCredentialModel() { Id = 4, Type = PersonType.EM, Title = "Ms.", FirstName = "Gail-5", LastName = "Erickson", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "gerickson@adventure-works.com", Salt = @"@OBOSM6D ca>kei@7nnJAW@Us", Hash = @"5A2637FE317DD5800DACA005B8745A", },
+                new PersonWithCredentialModel() { Id = 5, Type = PersonType.EM, Title = "Mr.", FirstName = "Jossef-6", LastName = "Goldberg", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "jgoldberg@adventure-works.com", Salt = @"@OBOSM6D ca>kei@7nnJAW@Us", Hash = @"1EAABD3DA8EC61577C11A9E13CAE1E", },
+                new PersonWithCredentialModel() { Id = 6, Type = PersonType.EM, FirstName = "Dylan-7", LastName = "Miller", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "dmiller@adventure-works.com", Salt = @"@f6+UK|CX(AE?t[=vEdN|$Ak=", Hash = @"950503984A8099BA705A7EAA03EB77", },
+                new PersonWithCredentialModel() { Id = 7, Type = PersonType.EM, FirstName = "Diane-8", LastName = "Margheim", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "dmargheim@adventure-works.com", Salt = @"@f6+UK|CX(AE?t[=vEdN|$Ak=", Hash = @"6EFF62613C6BB38D247BC8462B2D84", },
+                new PersonWithCredentialModel() { Id = 8, Type = PersonType.EM, FirstName = "Gigi-9", LastName = "Matthew", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "gmatthew@adventure-works.com", Salt = @"@dfxwG\a&7uOc*i9l/wSl\Cht", Hash = @"357B66EAECB0CF97CE337C32AEF437", },
+                new PersonWithCredentialModel() { Id = 9, Type = PersonType.EM, FirstName = "Michael-10", LastName = "Raheem", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "mraheem@adventure-works.com", Salt = @"@dfxwG\a&7uOc*i9l/wSl\Cht", Hash = @"634F0D9D33235C943527A5D0A64E43", },
+                new PersonWithCredentialModel() { Id = 10, Type = PersonType.EM, FirstName = "Ovidiu-11", LastName = "Cracium", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "ocracium@adventure-works.com", Salt = @"@z[TyEC_^YUV79[6MdmWH(D ?", Hash = @"3E0FB664F00CA1C045158F824B4489", },
+                new PersonWithCredentialModel() { Id = 11, Type = PersonType.EM, FirstName = "Thierry-12", LastName = "D'Hers", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "td'hers@adventure-works.com", Salt = @"@z[TyEC_^YUV79[6MdmWH(D ?", Hash = @"64557F4C133164312174865AB362F7", },
+                new PersonWithCredentialModel() { Id = 12, Type = PersonType.EM, Title = "Ms.", FirstName = "Janice-13", LastName = "Galvin", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "jgalvin@adventure-works.com", Salt = @"@2P/{B+^9|5]iHN3.<d[%SE5g", Hash = @"94B6073C08F00CEE438F7FAE0BA773", },
+                new PersonWithCredentialModel() { Id = 13, Type = PersonType.EM, FirstName = "Michael-14", LastName = "Sullivan", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "msullivan@adventure-works.com", Salt = @"@2P/{B+^9|5]iHN3.<d[%SE5g", Hash = @"6A7D62CF291A0127CE97589A307693", },
+                new PersonWithCredentialModel() { Id = 14, Type = PersonType.EM, FirstName = "Sharon-15", LastName = "Salavaria", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "ssalavaria@adventure-works.com", Salt = @"@1!|@?i|e-hf/[[/$%v`s-F3@", Hash = @"0E075D76EADDD0A4E861FC1A80F7C9", },
+                new PersonWithCredentialModel() { Id = 15, Type = PersonType.EM, FirstName = "David-16", LastName = "Bradley", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "dbradley@adventure-works.com", Salt = @"@1!|@?i|e-hf/[[/$%v`s-F3@", Hash = @"960FE275F0484DAAE5B2B7E62ED701", },
+                new PersonWithCredentialModel() { Id = 16, Type = PersonType.EM, FirstName = "Kevin-17", LastName = "Brown", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "kbrown@adventure-works.com", Salt = @"@GtXB<Q{?PImajM,c[mdOWGHh", Hash = @"B0F00803DBCCBE3A05CD179380F34F", },
+                new PersonWithCredentialModel() { Id = 17, Type = PersonType.EM, FirstName = "John-18", LastName = "Wood", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "jwood@adventure-works.com", Salt = @"@GtXB<Q{?PImajM,c[mdOWGHh", Hash = @"4D5997D7366C397FA14B34BAD00D14", },
+                new PersonWithCredentialModel() { Id = 18, Type = PersonType.EM, FirstName = "Mary-19", LastName = "Dempsey", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "mdempsey@adventure-works.com", Salt = @"@]i4D98zwr)t6y@)C2cg,$H^3", Hash = @"E0F1CA65B97FBD170B72BEE89728E9", },
+                new PersonWithCredentialModel() { Id = 19, Type = PersonType.EM, FirstName = "Wanida-20", LastName = "Benshoof", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "wbenshoof@adventure-works.com", Salt = @"@]i4D98zwr)t6y@)C2cg,$H^3", Hash = @"9C66AE82926284B0BED1CA43628324", },
+                new PersonWithCredentialModel() { Id = 20, Type = PersonType.EM, FirstName = "Terry-21", LastName = "Eminhizer", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "teminhizer@adventure-works.com", Salt = @"@\;#f6v:E#\}Y/M%9zvlz\I[i", Hash = @"693E531209B3DEDF301C011FE1619A", },
+                new PersonWithCredentialModel() { Id = 21, Type = PersonType.EM, FirstName = "Sariya-22", LastName = "Harnpadoungsataya", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "sharnpadoungsataya@adventure-works.com", Salt = @"@\;#f6v:E#\}Y/M%9zvlz\I[i", Hash = @"7655D4B26CEBAADBFC90D1124B9144", },
+                new PersonWithCredentialModel() { Id = 22, Type = PersonType.EM, FirstName = "Mary-23", LastName = "Gibson", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "mgibson@adventure-works.com", Salt = @"@\;#f6v:E#\}Y/M%9zvlz\I[i", Hash = @"D8B647F3C182593F0C190465B0FCC5", },
+                new PersonWithCredentialModel() { Id = 23, Type = PersonType.EM, Title = "Ms.", FirstName = "Jill-24", LastName = "Williams", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "jwilliams@adventure-works.com", Salt = @"@r0]h3^9 F<&.>@""xQlpV(Jq4", Hash = @"B47F65BB156E4560214A32E8051B73", },
+                new PersonWithCredentialModel() { Id = 24, Type = PersonType.EM, FirstName = "James-25", LastName = "Hamilton", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "jhamilton@adventure-works.com", Salt = @"@r0]h3^9 F<&.>@""xQlpV(Jq4", Hash = @"8FF5E288E4A67AFD2D8967BA0064CD", },
+                new PersonWithCredentialModel() { Id = 25, Type = PersonType.EM, FirstName = "Peter-26", LastName = "Krebs", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "pkrebs@adventure-works.com", Salt = @"@*$8k1E8Xiz-`L2}Y)ct3SK)]", Hash = @"D51CFC1F8198130B512892D3B8D7FA", },
+                new PersonWithCredentialModel() { Id = 26, Type = PersonType.EM, FirstName = "Guy-28", LastName = "Gilbert", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "ggilbert@adventure-works.com", Salt = @"@(T'/-%U&xP7&`?yOpuy#-M&5", Hash = @"4AD2C786D45E8D87F7D90CB8131786", },
+                new PersonWithCredentialModel() { Id = 27, Type = PersonType.EM, FirstName = "Mark-29", LastName = "McArthur", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "mmcarthur@adventure-works.com", Salt = @"@(T'/-%U&xP7&`?yOpuy#-M&5", Hash = @"80C670534D8BE216A63E5E3CE98BC4", },
+                new PersonWithCredentialModel() { Id = 28, Type = PersonType.EM, FirstName = "Britta-30", LastName = "Simon", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "bsimon@adventure-works.com", Salt = @"@(T'/-%U&xP7&`?yOpuy#-M&5", Hash = @"D9E9C14BD0179BA8733E508129684E", },
+                new PersonWithCredentialModel() { Id = 29, Type = PersonType.EM, FirstName = "Margie-31", LastName = "Shoop", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "mshoop@adventure-works.com", Salt = @"@?Ia1*kT^<0>Xo2v0Hl}^WN<^", Hash = @"D0DF5611BED9534842E9E3C8FAB2FA", },
+                new PersonWithCredentialModel() { Id = 30, Type = PersonType.EM, FirstName = "Rebecca-32", LastName = "Laszlo", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "rlaszlo@adventure-works.com", Salt = @"@?Ia1*kT^<0>Xo2v0Hl}^WN<^", Hash = @"F097D372627065E487A7E54A40B710", },
+                new PersonWithCredentialModel() { Id = 31, Type = PersonType.EM, FirstName = "Annik-33", LastName = "Stahl", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "astahl@adventure-works.com", Salt = @"@U>=3(RS9_nE, $so}b#:$OQ)", Hash = @"F4975F84A9D76D291C901687332ED4", },
+                new PersonWithCredentialModel() { Id = 32, Type = PersonType.EM, FirstName = "Suchitra-34", LastName = "Mohan", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "smohan@adventure-works.com", Salt = @"@U>=3(RS9_nE, $so}b#:$OQ)", Hash = @"3FF5F858ED5935AC25E69280BBA9C8", },
+                new PersonWithCredentialModel() { Id = 33, Type = PersonType.EM, FirstName = "Brandon-35", LastName = "Heidepriem", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "bheidepriem@adventure-works.com", Salt = @"@Sm,U$2qdnDNP42oegu(*\PO_", Hash = @"BA6B30212EC3F0FD8E008C4D9E34C1", },
+                new PersonWithCredentialModel() { Id = 34, Type = PersonType.EM, FirstName = "Jose-36", LastName = "Lugo", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "jlugo@adventure-works.com", Salt = @"@Sm,U$2qdnDNP42oegu(*\PO_", Hash = @"A12801D06C7748EFA55528150BA8EF", },
+                new PersonWithCredentialModel() { Id = 35, Type = PersonType.EM, FirstName = "Chris-37", LastName = "Okelberry", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "cokelberry@adventure-works.com", Salt = @"@ibfW""xp?3$U$B$lF>k+e(Qd*", Hash = @"AC95090BEB454CC8FFEFE1115C4CA9", },
+                new PersonWithCredentialModel() { Id = 36, Type = PersonType.EM, FirstName = "Kim-38", LastName = "Abercrombie", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "kabercrombie@adventure-works.com", Salt = @"@ibfW""xp?3$U$B$lF>k+e(Qd*", Hash = @"F5CEEBDDC3E54B07B821C3F6B3FBAE", },
+                new PersonWithCredentialModel() { Id = 37, Type = PersonType.EM, FirstName = "Ed-39", LastName = "Dudenhoefer", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "edudenhoefer@adventure-works.com", Salt = @"@""WBZ}`owUb\WQui'tb/ASRzR", Hash = @"32602E7D7111D5A1C8ECF353340AC1", },
+                new PersonWithCredentialModel() { Id = 38, Type = PersonType.EM, FirstName = "JoLynn-40", LastName = "Dobney", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "jdobney@adventure-works.com", Salt = @"@""WBZ}`owUb\WQui'tb/ASRzR", Hash = @"804BAA95726B3E9D6F327CDB59B234", },
+                new PersonWithCredentialModel() { Id = 39, Type = PersonType.EM, FirstName = "Bryan-41", LastName = "Baker", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "bbaker@adventure-works.com", Salt = @"@ )1|z?/Ed8fze$f{]t41-Sw+", Hash = @"AD57FFBA028D352DD9576678BDA4F3", },
+                new PersonWithCredentialModel() { Id = 40, Type = PersonType.EM, FirstName = "James-42", LastName = "Kramer", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "jkramer@adventure-works.com", Salt = @"@ )1|z?/Ed8fze$f{]t41-Sw+", Hash = @"AB577A80E2B9C86D7E7A9670FD1D2E", },
+                new PersonWithCredentialModel() { Id = 41, Type = PersonType.EM, FirstName = "Nancy-43", LastName = "Anderson", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "nanderson@adventure-works.com", Salt = @"@ )1|z?/Ed8fze$f{]t41-Sw+", Hash = @"FEEE7857A25D5C450006C5FAB4AA2E", },
+                new PersonWithCredentialModel() { Id = 42, Type = PersonType.EM, FirstName = "Simon-44", LastName = "Rapier", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "srapier@adventure-works.com", Salt = @"Aw,KIlzH8BJ-MVYVRaaIOSYmH", Hash = @"62E7B2A6613A1FD0F6196F8CF8B613", },
+                new PersonWithCredentialModel() { Id = 43, Type = PersonType.EM, FirstName = "Thomas-45", LastName = "Michaels", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "tmichaels@adventure-works.com", Salt = @"Av[:khYfdQ}6qjgRHKsN?-Zk ", Hash = @"97E86FAEA00B4C51C962F530F3A8B9", },
+                new PersonWithCredentialModel() { Id = 44, Type = PersonType.EM, FirstName = "Eugene-46", LastName = "Kogan", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "ekogan@adventure-works.com", Salt = @"Av[:khYfdQ}6qjgRHKsN?-Zk ", Hash = @"76B94A166488DD6FE8F9AEB04C54B0", },
+                new PersonWithCredentialModel() { Id = 45, Type = PersonType.EM, FirstName = "Andrew-47", LastName = "Hill", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "ahill@adventure-works.com", Salt = @"A.PsmfAe?s]=EyYO)""jQzX[""I", Hash = @"A8178AEFBB84EBF3A429FF0F25E6D2", },
+                new PersonWithCredentialModel() { Id = 46, Type = PersonType.EM, FirstName = "Ruth-48", LastName = "Ellerbrock", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "rellerbrock@adventure-works.com", Salt = @"ADEOoc)dw8=Dx*KLhX`UV$\8r", Hash = @"E34D7EF97677E595C8B47CA5B9525E", },
+                new PersonWithCredentialModel() { Id = 47, Type = PersonType.EM, FirstName = "Barry-49", LastName = "Johnson", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "bjohnson@adventure-works.com", Salt = @"ADEOoc)dw8=Dx*KLhX`UV$\8r", Hash = @"EE2008A2079AE9F00D4D3C8F4F97DF", },
+                new PersonWithCredentialModel() { Id = 48, Type = PersonType.EM, FirstName = "Sidney-50", LastName = "Higa", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "shiga@adventure-works.com", Salt = @"ACu>3`g#EGqN==YH^AsZF\]5J", Hash = @"EA2E0926941A33E05EC20188713EBB", },
+                new PersonWithCredentialModel() { Id = 49, Type = PersonType.EM, FirstName = "Jeffrey-51", LastName = "Ford", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "jford@adventure-works.com", Salt = @"ACu>3`g#EGqN==YH^AsZF\]5J", Hash = @"749D7E07BD59C237807AE5A9F2C8B9", },
+                new PersonWithCredentialModel() { Id = 50, Type = PersonType.EM, FirstName = "Doris-52", LastName = "Hartwig", ModifiedDate = Convert.ToDateTime("2016-04-19 14:47:23"), Email = "dhartwig@adventure-works.com", Salt = @"ACu>3`g#EGqN==YH^AsZF\]5J", Hash = @"EF3EC9BB746C9815BA590DD26B048E", },
             };
-            #endregion
+            _maxPersonID = persons.Last().Id;
+            _originalPersonsCount = persons.Count;
 
-            #region List of mocked login
-
-            IList<LoginModel> logins = new List<LoginModel>
-            {
-                new LoginModel() { Email = "terri0@adventure-works.com", PasswordSalt = "EjJaC3U=", PasswordHash = "OZJpfqx/0EfhXWMuZ4XIk7IuSAuzxzZPyacbTbUUJefXmvOwv453rQin7pfUpzYW/k1LigbAoOJtGaTF21Kghw==", },
-                new LoginModel() { Email = "roberto0@adventure-works.com", PasswordSalt = "wbPZqMw=", PasswordHash = "8BUXrZfDqO1IyHCWOYzYmqN1IhTUn3CJMpdx/UCQ3iY=", },
-                new LoginModel() { Email = "rob0@adventure-works.com", PasswordSalt = "PwSunQU=", PasswordHash = "SjLXpiarHSlz+6AG+H+4QpB/IPRzras/+9q/5Wr7tf8=", },
-                new LoginModel() { Email = "gail0@adventure-works.com", PasswordSalt = "qYhZRiM=", PasswordHash = "8FYdAiY6gWuBsgjCFdg0UibtsqOcWHf9TyaHIP7+paA=", },
-                new LoginModel() { Email = "jossef0@adventure-works.com", PasswordSalt = "a9GiLUA=", PasswordHash = "u5kbN5n84NRE1h/a+ktdRrXucjgrmfF6wZC4g82rjHM=", },
-                new LoginModel() { Email = "dylan0@adventure-works.com", PasswordSalt = "13mu8BA=", PasswordHash = "zSqerln8T8eq3nYHC4Lx4vMuxZaxkDylVwWnP2ZT6QA=", },
-                new LoginModel() { Email = "diane1@adventure-works.com", PasswordSalt = "FlCpzTU=", PasswordHash = "s+FUWADIZzXBKpcbxe4OwL2uiJmjLogJNYXXHvc1X/k=", },
-                new LoginModel() { Email = "gigi0@adventure-works.com", PasswordSalt = "FTcZMvQ=", PasswordHash = "fCvCTy3RwzA2LNhhhYUbT7erkb9Au5wyM2q7ReHroV0=", },
-                new LoginModel() { Email = "michael6@adventure-works.com", PasswordSalt = "K7dMpTY=", PasswordHash = "/8biMrxuAtETGeIuloSrMQHBraZtZ+eU2z5OJ1Fhn6M=", },
-                new LoginModel() { Email = "ovidiu0@adventure-works.com", PasswordSalt = "wTGciQ8=", PasswordHash = "iaZ6ky76dbOG+0Y069v4bm78UfhfGXSeYtxp4Vgd15o=", },
-                new LoginModel() { Email = "thierry0@adventure-works.com", PasswordSalt = "S0g9tDo=", PasswordHash = "I9HGCr3jbwF3LYBlVsM/cOC2IHfg7ns5t2xejnWZ9Ko=", },
-                new LoginModel() { Email = "janice0@adventure-works.com", PasswordSalt = "S7XWeXc=", PasswordHash = "3ZuoojogvvBKmtr+iHeqWoiZNCzp6N1abPoymjp+O+4=", },
-                new LoginModel() { Email = "michael8@adventure-works.com", PasswordSalt = "BpZw68c=", PasswordHash = "mKAlVVzgDo12qro7ZDmr3oEmCxklWc7+dYDFlC58Vv4=", },
-                new LoginModel() { Email = "sharon0@adventure-works.com", PasswordSalt = "dhGWm88=", PasswordHash = "m5ESf7VNdqsqa/s82jX/r3UK95GTrMPM4YhGw0jzS9c=", },
-                new LoginModel() { Email = "david0@adventure-works.com", PasswordSalt = "CTdtN+Q=", PasswordHash = "oaeJoTn5hbyNfemp2qzIpGTP5uNle8NRPki9Ur3Znl8=", },
-                new LoginModel() { Email = "kevin0@adventure-works.com", PasswordSalt = "nqdPuIs=", PasswordHash = "7OdV1zJ/Q0TtaAgSo1KHZAFaUhN0XjqzL9gXrnpl5BE=", },
-                new LoginModel() { Email = "john5@adventure-works.com", PasswordSalt = "5lT5pzE=", PasswordHash = "+Six1+I1JOOR+oosTOz1L7jf/t79CUdo05d5uv+scXE=", },
-                new LoginModel() { Email = "mary2@adventure-works.com", PasswordSalt = "9S8bKmU=", PasswordHash = "+NeFaMBZDuBHjM/jVl5RQmWChbKw5O6H7LR8DAboLXc=", },
-                new LoginModel() { Email = "wanida0@adventure-works.com", PasswordSalt = "QxeRrms=", PasswordHash = "QK5+W4y+v4xBQ7/grkmXPa5kK5G8kMb5qJZLpDzpLko=", },
-                new LoginModel() { Email = "terry0@adventure-works.com", PasswordSalt = "UDnl8iQ=", PasswordHash = "b8i62trjF69At8pO1r2uClfiGWq0wx7w8Kz8xsOVmSs=", },
-                new LoginModel() { Email = "sariya0@adventure-works.com", PasswordSalt = "oK/J3Z0=", PasswordHash = "NrVTt2LIAOOd/kB3YfCaKzLbeOgefZsGTeg2z7TKzhw=", },
-                new LoginModel() { Email = "mary0@adventure-works.com", PasswordSalt = "xW40Ctk=", PasswordHash = "TlZs9R2WoVp1jjfCyxE8Dtaw4OhlcKgCPbqXaOxeIW4=", },
-                new LoginModel() { Email = "jill0@adventure-works.com", PasswordSalt = "Cog9m/Y=", PasswordHash = "wI5v4SNv5Mg5ea0Ufy1xy966PrXWCBp8gLIhC1QTqWw=", },
-                new LoginModel() { Email = "james1@adventure-works.com", PasswordSalt = "cHNglYA=", PasswordHash = "iYoywqstKDflRLmJwKmI/ObzZl6KQ4sX5hUgBa1Qgz0=", },
-                new LoginModel() { Email = "peter0@adventure-works.com", PasswordSalt = "FKGTmOE=", PasswordHash = "GCZ//7zDxPTsO9cuY1Rk0uUUc6t2jEGZwjGqXVll6Ws=", },
-                new LoginModel() { Email = "jo0@adventure-works.com", PasswordSalt = "+QS/bjA=", PasswordHash = "uQaHsaafTmDMFjX9nNhAFjHaYjqeTZhlcZp4azb5Hgs=", },
-                new LoginModel() { Email = "guy1@adventure-works.com", PasswordSalt = "Lanmhoo=", PasswordHash = "Li2+pm3yhRgX8v0v3JJZWL8NPgdBse1zAG1ph25sFAk=", },
-                new LoginModel() { Email = "mark1@adventure-works.com", PasswordSalt = "a1y2pAU=", PasswordHash = "2sudtPUZMsjMIVXKcfx3NPWhTws5ZSHJa+pzKYnyxtU=", },
-                new LoginModel() { Email = "britta0@adventure-works.com", PasswordSalt = "iZ1gk4w=", PasswordHash = "xyWYdzg9o+gUyBlMkxVRx4O4oBuaXtien0ZXxhB58gM=", },
-                new LoginModel() { Email = "margie0@adventure-works.com", PasswordSalt = "sIEEdsc=", PasswordHash = "kJbBLUOic5PVfwg1GdR9qfyoMjvORTYcGZodSeVZWIk=", },
-                new LoginModel() { Email = "rebecca0@adventure-works.com", PasswordSalt = "wWhazQ0=", PasswordHash = "eNEOaY4IjJnWBTMEi5RwtrUvNsnE2JdKomG3EtXh0DI=", },
-                new LoginModel() { Email = "annik0@adventure-works.com", PasswordSalt = "O6qnszI=", PasswordHash = "imO5JUOoa0oxbLl8+7IFkDSXBvSPkWMIQ+LyZweF5JU=", },
-                new LoginModel() { Email = "suchitra0@adventure-works.com", PasswordSalt = "fV77lec=", PasswordHash = "8gRugQzLi5VXNW0Nf8zZVbfXgEugWH0RjY+Q+HMyuVY=", },
-                new LoginModel() { Email = "brandon0@adventure-works.com", PasswordSalt = "/e8ZHbc=", PasswordHash = "aG4eXJgOVz70IbhQ0E+86zZ73KYXXw8dPt3YCyGZeE8=", },
-                new LoginModel() { Email = "jose0@adventure-works.com", PasswordSalt = "LzNcnKc=", PasswordHash = "JayoOBYFOeSNXJFNFOCCpaxrgbjZo0KR1GhtVts+TGs=", },
-                new LoginModel() { Email = "chris2@adventure-works.com", PasswordSalt = "T/vRqY0=", PasswordHash = "lZfD5IydVoTG3D4Kl+Rlu/4zC1Ws/KvjgNz7S146TDo=", },
-                new LoginModel() { Email = "kim1@adventure-works.com", PasswordSalt = "wdPlbgo=", PasswordHash = "vjjIYGB99tLATbne8D7MRTg2+tkExYHjmH/pcWSg3nE=", },
-                new LoginModel() { Email = "ed0@adventure-works.com", PasswordSalt = "QxftJhk=", PasswordHash = "1qBCXoN8hcC6AXCLJ+mHECaq2uadfZjUhsZ0T9VOrCQ=", },
-                new LoginModel() { Email = "jolynn0@adventure-works.com", PasswordSalt = "zS9+W2w=", PasswordHash = "8bitCdCd+ipeWv1IH6koUF/Kj+5LnT4/9Upfr2aW/JY=", },
-                new LoginModel() { Email = "bryan0@adventure-works.com", PasswordSalt = "f64DkCs=", PasswordHash = "0DC43UiCe4QCmUgrnFd0Lur1C0rfS+Ht1Z8sgyk7wlM=", },
-                new LoginModel() { Email = "james0@adventure-works.com", PasswordSalt = "uTuRBuI=", PasswordHash = "HSLAA7MxklY4dZIcbcNYGiUvPkEi4tyG/U0WE76uBag=", },
-                new LoginModel() { Email = "nancy0@adventure-works.com", PasswordSalt = "6f2hjx4=", PasswordHash = "n2QKI23Ms1v3+43ei7hm1pUh6SkQcc5J3r52yMYeNTA=", },
-                new LoginModel() { Email = "simon0@adventure-works.com", PasswordSalt = "Tc2WN/g=", PasswordHash = "IoIaCj49Zj5/06VGOxs/PBaHj8A5PNmtkP6GD1VdKA8=", },
-                new LoginModel() { Email = "thomas0@adventure-works.com", PasswordSalt = "x8a2Ne8=", PasswordHash = "bNLcjIkHF9PhhLoHDcoQMFdZqro/2LhO6rbZEXwuXgA=", },
-                new LoginModel() { Email = "eugene1@adventure-works.com", PasswordSalt = "5Tst9Lo=", PasswordHash = "FRAoiZRV3HyWmSEykYZOHNH2YwpT2Vkp+8vfSVY+4Yo=", },
-                new LoginModel() { Email = "andrew0@adventure-works.com", PasswordSalt = "ZymdKp8=", PasswordHash = "OZg1gWJ8cJwFeGr4+7FZ+MqKBARAS7J+8B1pFKa1XcQ=", },
-                new LoginModel() { Email = "ruth0@adventure-works.com", PasswordSalt = "9jpCCt8=", PasswordHash = "1RPeKdRfcI8Mq7HMufSsh7rQytv9C6RjCCFZQdVDyDU=", },
-                new LoginModel() { Email = "barry0@adventure-works.com", PasswordSalt = "/YY4OC8=", PasswordHash = "hMm7dGpKsLImpDz599yNKq2r505OJ6gWa/S367qozpc=", },
-                new LoginModel() { Email = "sidney0@adventure-works.com", PasswordSalt = "CfjZvwk=", PasswordHash = "ZozTjNcGBqxrOfHFyynKlPjbW7aAWJ1iEYr2YlRK2tc=", },
-                new LoginModel() { Email = "jeffrey0@adventure-works.com", PasswordSalt = "YH+8tA4=", PasswordHash = "W9SR91EhQQG8SpnY54G6CvXc8yTvDcQWzO2hFbc9idI=", },
-            };
             #endregion
 
             Mock<IPersonDal> repository = new Mock<IPersonDal>();
@@ -168,7 +117,7 @@ namespace AdventureWorks.Dal.Tests
                         return persons.Remove(person);
                     }
                 );
-            repository.Setup(r => r.SelectPassword(It.IsAny<string>())).Returns((string email) => logins.Where(l => l.Email == email).SingleOrDefault());
+            repository.Setup(r => r.GetOneByValidCredential(It.IsAny<CredentialModel>())).Returns((CredentialModel c) => persons.Where(l => (l as PersonWithCredentialModel).Email == c.Login).SingleOrDefault());
 
 
             return repository;
@@ -179,18 +128,6 @@ namespace AdventureWorks.Dal.Tests
         public PersonDalTest()
         {
             _repository = PersonDalTest.GetMockedRepository().Object;
-        }
-
-        [TestMethod]
-        [TestCategory("PersonDal")]
-        public void ConstructorShouldSetPrivateConnectionString()
-        {
-            //arrange
-            string connectionString = @"Data Source=SVR-STONER.tesfri.intra\HERMES;Initial Catalog=AdventureWorks2012;Persist Security Info=False;User ID=team_project;Password=K@r@m@z0v;Connect Timeout=5;";
-            //act
-            PersonDal person = new PersonDal(connectionString);
-            //assert
-            Assert.AreEqual(connectionString, person.ConnectionString);
         }
 
         [TestMethod]
@@ -213,7 +150,7 @@ namespace AdventureWorks.Dal.Tests
             Assert.IsNotNull(person);
             Assert.IsInstanceOfType(person, typeof(PersonModel));
             Assert.AreEqual(10, person.Id);
-            Assert.AreEqual("Raheem", person.LastName);
+            Assert.AreEqual("Cracium", person.LastName);
         }
 
         [TestMethod]
@@ -221,11 +158,11 @@ namespace AdventureWorks.Dal.Tests
         public void CanInsertPerson()
         {
             // Create a new person, not I do not supply an id
-            PersonModel newPerson = new PersonModel(0, "Mr.", "John", "Doe");
+            PersonModel newPerson = new PersonModel() { Title = "Mr.", FirstName = "John", LastName = "Doe", };
 
             int personCount = _repository.SelectAll().Count;
 
-            Assert.AreEqual(50, personCount); // Verify the expected Number pre-insert
+            Assert.AreEqual(_originalPersonsCount, personCount); // Verify the expected Number pre-insert
 
             // Try saving our new person
             newPerson = this._repository.Insert(newPerson);
@@ -233,7 +170,7 @@ namespace AdventureWorks.Dal.Tests
 
             // demand a recount
             personCount = _repository.SelectAll().Count;
-            Assert.AreEqual(51, personCount); // Verify the expected Number post-insert
+            Assert.AreEqual(_originalPersonsCount + 1, personCount); // Verify the expected Number post-insert
 
             // verify that our new product has been saved
             PersonModel testPerson = _repository.SelectAll().OrderByDescending(x => x.Id).FirstOrDefault();
@@ -241,7 +178,7 @@ namespace AdventureWorks.Dal.Tests
             Assert.IsNotNull(testPerson); // Test if null
 
             Assert.IsInstanceOfType(testPerson, typeof(PersonModel)); // Test type
-            Assert.AreEqual(52, testPerson.Id); // Verify it has the expected personid
+            Assert.IsTrue(testPerson.Id > _maxPersonID); // Verify it has the expected personid
             Assert.AreEqual(newPerson.LastName, testPerson.LastName);
         }
 
@@ -294,7 +231,7 @@ namespace AdventureWorks.Dal.Tests
             Assert.AreNotEqual(newLastName, testPerson.LastName);
 
             // Change one of its properties
-            testPerson = new PersonModel(int.MaxValue, testPerson.Type, testPerson.Title, testPerson.FirstName, testPerson.LastName);
+            testPerson = new PersonModel() { Id = int.MaxValue, Type = testPerson.Type, Title = testPerson.Title, FirstName = testPerson.FirstName, LastName = testPerson.LastName, };
             testPerson.LastName = newLastName;
             DateTime modifiedDate = testPerson.ModifiedDate;
 
@@ -343,15 +280,15 @@ namespace AdventureWorks.Dal.Tests
 
         [TestMethod]
         [TestCategory("PersonDal")]
-        public void SelectPasswordReturnCorrectLogin()
+        public void GetByCredentialReturnsCorrectLogin()
         {
-            string email = "terri0@adventure-works.com";
-            LoginModel login = _repository.SelectPassword(email);
+            CredentialModel c = new CredentialModel() { Login = "ocracium@adventure-works.com", Password = "ocracium", };
 
-            Assert.IsNotNull(login);
-            Assert.AreEqual(email, login.Email);
-            Assert.AreEqual("EjJaC3U=", login.PasswordSalt);
-            Assert.AreEqual("OZJpfqx/0EfhXWMuZ4XIk7IuSAuzxzZPyacbTbUUJefXmvOwv453rQin7pfUpzYW/k1LigbAoOJtGaTF21Kghw==", login.PasswordHash);
+            PersonModel person = _repository.GetOneByValidCredential(c);
+
+            Assert.IsNotNull(person);
+            Assert.AreEqual(person.FirstName, "Ovidiu-11");
+            Assert.AreEqual(person.LastName, "Cracium");
         }
 
         #region Test Real Db
@@ -360,7 +297,7 @@ namespace AdventureWorks.Dal.Tests
         [TestCategory("PersonDal RealDb")]
         public void CanReturnAllPersonsFromDb()
         {
-            PersonDal dal = new PersonDal(_connectionStringTestDb);
+            PersonDal dal = new PersonDal(_connectionStringTestDb, _providerNameTestDb);
             IList<PersonModel> persons = dal.SelectAll();
 
             Assert.IsNotNull(persons);
@@ -372,15 +309,14 @@ namespace AdventureWorks.Dal.Tests
         [TestCategory("PersonDal RealDb")]
         public void SelectPasswordReturnCorrectLoginFromDb()
         {
-            string email = "terri0@adventure-works.com";
+            PersonDal dal = new PersonDal(_connectionStringTestDb, _providerNameTestDb);
 
-            PersonDal dal = new PersonDal(_connectionStringTestDb);
-            LoginModel login = dal.SelectPassword(email);
+            CredentialModel c = new CredentialModel() { Login = "ocracium@adventure-works.com", Password = "ocracium", };
+            PersonModel person = dal.GetOneByValidCredential(c);
 
-            Assert.IsNotNull(login);
-            Assert.AreEqual(email, login.Email);
-            Assert.AreEqual("EjJaC3U=", login.PasswordSalt);
-            Assert.AreEqual("OZJpfqx/0EfhXWMuZ4XIk7IuSAuzxzZPyacbTbUUJefXmvOwv453rQin7pfUpzYW/k1LigbAoOJtGaTF21Kghw==", login.PasswordHash);
+            Assert.IsNotNull(person);
+            Assert.AreEqual(person.FirstName, "Ovidiu-11");
+            Assert.AreEqual(person.LastName, "Cracium");
         }
 
         #endregion

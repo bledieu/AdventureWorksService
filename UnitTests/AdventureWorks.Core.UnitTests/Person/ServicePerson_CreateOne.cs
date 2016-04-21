@@ -1,16 +1,11 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
+﻿using AdventureWorks.Core;
 using AdventureWorks.Core.Person;
 using AdventureWorks.Model;
-using System.Collections.Generic;
-using AdventureWorks.Dal;
-using AdventureWorks.Dal.Tests;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using System;
 using System.Linq;
-using OperationContext = System.ServiceModel.Web.MockedOperationContext;
 using System.ServiceModel;
-using System.ServiceModel.Web;
-using AdventureWorks.Core;
 
 namespace AdventureWorks.UnitTests.Person
 {
@@ -21,7 +16,7 @@ namespace AdventureWorks.UnitTests.Person
         public void CreateAPersonPersitsInDb()
         {
             //arrange
-            PersonModel newPerson = new PersonModel(0, PersonType.GC, "Mr.", "John", "Smith");
+            PersonModel newPerson = new PersonModel() { Type = PersonType.GC, Title = "Mr.", FirstName = "John", LastName = "Smith", };
             ServicePerson controller = new ServicePerson(_repository);
 
             int personsCount = _repository.SelectAll().Count();
@@ -62,7 +57,7 @@ namespace AdventureWorks.UnitTests.Person
                     throw new Exception();
                 });
 
-            PersonModel newPerson = new PersonModel(0, PersonType.GC, "Mr.", "John", "Smith");
+            PersonModel newPerson = new PersonModel() { Type = PersonType.GC, Title = "Mr.", FirstName = "John", LastName = "Smith", };
             ServicePerson controller = new ServicePerson(_repository);
             try { controller.CreateOne(newPerson); }
             catch (FaultException e)
@@ -83,7 +78,7 @@ namespace AdventureWorks.UnitTests.Person
                     return null;
                 });
 
-            PersonModel newPerson = new PersonModel(0, PersonType.GC, "Mr.", "John", "Smith");
+            PersonModel newPerson = new PersonModel() { Type = PersonType.GC, Title = "Mr.", FirstName = "John", LastName = "Smith", };
             ServicePerson controller = new ServicePerson(_repository);
             try { controller.CreateOne(newPerson); }
             catch (FaultException<CoreDetailedException> e)

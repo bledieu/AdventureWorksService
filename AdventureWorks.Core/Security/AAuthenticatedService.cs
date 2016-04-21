@@ -12,20 +12,6 @@ namespace AdventureWorks.Core.Security
 {
     public abstract class AAuthenticatedService
     {
-        protected internal bool CheckIfUserIsAuthenticated()
-        {
-            if (OperationContext.Current == null) return true;
-
-            ServiceSecurityContext securityCtx = OperationContext.Current.ServiceSecurityContext;
-
-            if ((securityCtx.PrimaryIdentity.IsAuthenticated != true) || (securityCtx.PrimaryIdentity.Name != "Team_Project"))
-            {
-                throw new UnauthorizedAccessException("You are not permitted to call this method. Access Denied.");
-            }
-
-            return true;
-        }
-
         protected internal void ThrowNewFaultException_CoreDetailedException(string family, string description)
         {
             StackTrace st = new StackTrace();
@@ -33,14 +19,6 @@ namespace AdventureWorks.Core.Security
             string method = sf.GetMethod().Name;
 
             CoreDetailedException e = new CoreDetailedException(this.GetType().Name, method, family, description);
-
-            //using (MemoryStream stream = new MemoryStream())
-            //{
-            //    DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(CoreDetailedException));
-            //    ser.WriteObject(stream, e);
-            //    stream.Position = 0;
-            //    using (StreamReader sr = new StreamReader(stream)) description = sr.ReadToEnd();
-            //}
 
             throw new FaultException<CoreDetailedException>(e, description, new FaultCode(family));
         }

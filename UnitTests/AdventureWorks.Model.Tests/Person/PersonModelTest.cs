@@ -1,7 +1,5 @@
-﻿using System;
-using AdventureWorks.Model;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Linq;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace AdventureWorks.Model.Tests.Person
 {
@@ -10,24 +8,9 @@ namespace AdventureWorks.Model.Tests.Person
     {
         [TestMethod]
         [TestCategory("PersonModelTest")]
-        public void ConstructorShouldSetProperties()
-        {
-            //arrange
-            //act
-            PersonModel person = new PersonModel(1, PersonType.EM, "Mr.", "Baptiste", "LEDIEU");
-            //assert
-            Assert.AreEqual(1, person.Id);
-            Assert.AreEqual(PersonType.EM, person.Type);
-            Assert.AreEqual("Mr.", person.Title);
-            Assert.AreEqual("Baptiste", person.FirstName);
-            Assert.AreEqual("LEDIEU", person.LastName);
-        }
-
-        [TestMethod]
-        [TestCategory("PersonModelTest")]
         public void TypeShouldBeEmIfNotSet()
         {
-            PersonModel person = new PersonModel(1, "Mr.", "Baptiste", "LEDIEU");
+            PersonModel person = new PersonModel();
             Assert.AreEqual(PersonType.EM, person.Type);
         }
 
@@ -35,32 +18,32 @@ namespace AdventureWorks.Model.Tests.Person
         [TestCategory("PersonModelTest")]
         public void TitleShouldBeNullIfSetEmpty()
         {
-            PersonModel person = new PersonModel(1, PersonType.EM, "", "Baptiste", "LEDIEU");
+            PersonModel person = new PersonModel() { Title = "", };
             Assert.AreEqual(null, person.Title);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         [TestCategory("PersonModelTest")]
-        public void ConstructorShouldThrowExceptionIfIdNegative()
+        public void IDThrowExceptionIfIdNegative()
         {
-            new PersonModel(-1, PersonType.EM, "Mr.", "Baptiste", "LEDIEU");
+            PersonModel person = new PersonModel() { Id = -1, };
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         [TestCategory("PersonModelTest")]
-        public void ConstructorShouldThrowExceptionIfFirstNameEmpty()
+        public void FirstNameShouldThrowExceptionIfEmpty()
         {
-            new PersonModel(1, PersonType.EM, "Mr.", "", "LEDIEU");
+            new PersonModel() { FirstName = "", };
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         [TestCategory("PersonModelTest")]
-        public void ConstructorShouldThrowExceptionIfLastNameEmpty()
+        public void LastNameShouldThrowExceptionIfEmpty()
         {
-            new PersonModel(1, PersonType.EM, "Mr.", "Baptiste", "");
+            new PersonModel() { LastName = "", };
         }
 
         [TestMethod]
@@ -68,8 +51,8 @@ namespace AdventureWorks.Model.Tests.Person
         public void PersonWithSameIdShouldBeEqual()
         {
             //arrange
-            PersonModel person1 = new PersonModel(1, PersonType.EM, "", "Baptiste", "LEDIEU");
-            PersonModel person2 = new PersonModel(1, PersonType.EM, "", "Baptiste", "LEDIEU");
+            PersonModel person1 = new PersonModel() { Id = 1, Type = PersonType.EM, FirstName = "Baptiste", LastName = "LEDIEU", };
+            PersonModel person2 = new PersonModel() { Id = 1, Type = PersonType.EM, FirstName = "Baptiste", LastName = "LEDIEU", };
             //act
             //assert
             Assert.AreEqual(person1, person2);
@@ -81,8 +64,8 @@ namespace AdventureWorks.Model.Tests.Person
         public void PersonWithDifferentIdShouldNotBeEqual()
         {
             //arrange
-            PersonModel person1 = new PersonModel(1, PersonType.EM, "", "Baptiste", "LEDIEU");
-            PersonModel person2 = new PersonModel(2, PersonType.EM, "", "Baptiste", "LEDIEU");
+            PersonModel person1 = new PersonModel() { Id = 1, Type = PersonType.EM, FirstName = "Baptiste", LastName = "LEDIEU", };
+            PersonModel person2 = new PersonModel() { Id = 2, Type = PersonType.EM, FirstName = "Baptiste", LastName = "LEDIEU", };
             //act
             //assert
             Assert.AreNotEqual(person1, person2);

@@ -188,7 +188,7 @@ namespace AdventureWorks.Core.Security
         public override bool ValidateUser(string username, string password)
         {
             if (_serviceType == typeof(Login.LoginService)) return true;
-            return PersonDal.ValidateUser(username);
+            return PersonDal.ValidateUser(new CredentialModel() { Login = username, Password = password, });
         }
     }
 }
